@@ -26,11 +26,16 @@ public class HowLongDetail extends ActionBarActivity {
     //Runnable r;
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             Bundle bundle = msg.getData();
             Calendar today = (Calendar) bundle.getSerializable("curr_date");
             Calendar eventDate = (Calendar) bundle.getSerializable("event_date");
             month.setText(monthsBetween(today, eventDate) + " Month" + addEss(monthsBetween(today, eventDate)));
             second.setText(remainderSeconds(today, eventDate) + " Second" + addEss(remainderSeconds(today, eventDate)));
+            day.setText(remainderDays(today, eventDate) + " Day" + addEss(remainderDays(today, eventDate)));
+            hour.setText(remainderHours(today, eventDate) + " Hour" + addEss(remainderHours(today, eventDate)));
+            minute.setText(remainderMinutes(today, eventDate) + " Minute" + addEss(remainderMinutes(today, eventDate)));
+            event.setText(dateFormat.format(eventDate.getTime()));
 
         }
     };
