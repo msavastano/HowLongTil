@@ -9,16 +9,19 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".HowLongTIlMainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".HowLongDetail"
-            android:label="@string/title_activity_how_long_detail" >
+            android:label="@string/title_activity_how_long_detail"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name=".HowLongDetail" />
             </intent-filter>

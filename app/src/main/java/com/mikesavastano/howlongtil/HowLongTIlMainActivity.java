@@ -44,12 +44,16 @@ public class HowLongTIlMainActivity extends ActionBarActivity {
 
         eventDate = Calendar.getInstance();
         eventDate.set(year, month, day);
+        eventDate.set(Calendar.HOUR_OF_DAY, 0);
+        eventDate.set(Calendar.MINUTE, 0);
+        eventDate.set(Calendar.SECOND, 0);
+        eventDate.set(Calendar.MILLISECOND, 0);
 
         detailsView = new Intent(this, HowLongDetail.class);
-        Bundle bun = new Bundle();
-        bun.putString("c", today.getTime().toString());
-        bun.putString("e", Integer.toString(eventDate.WEEK_OF_YEAR));
-        detailsView.putExtras(bun);
+        //Bundle bun = new Bundle();
+        //bun.putString("c", today.getTime().toString());
+        //bun.putString("e", Integer.toString(eventDate.WEEK_OF_YEAR));
+        detailsView.putExtra("event", eventDate);
         startActivity(detailsView);
     }
 
