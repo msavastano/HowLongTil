@@ -3,6 +3,7 @@ package com.mikesavastano.howlongtil;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ public class HowLongDetail extends ActionBarActivity {
     TextView hour;
     TextView minute;
     TextView second;
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     //Runnable r;
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -88,10 +89,11 @@ public class HowLongDetail extends ActionBarActivity {
         thdA.start();
         //curr.setText(dateFormat.format(today.getTime()));
     }
-
+    final String TAG = "com.mikesavastano.howlongdetail.saveevent";
     public void saveEvent (View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
         Date d = new Date();
+        Log.i(TAG, event.getText().toString());
         String event_date = event.getText().toString();
         try {
             d = dateFormat.parse(event_date);
