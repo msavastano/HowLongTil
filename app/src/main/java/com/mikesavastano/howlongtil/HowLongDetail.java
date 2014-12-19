@@ -5,11 +5,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import android.os.Handler;
 
@@ -23,10 +26,11 @@ public class HowLongDetail extends ActionBarActivity {
     TextView hour;
     TextView minute;
     TextView second;
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     //Runnable r;
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
             Bundle bundle = msg.getData();
             Calendar today = (Calendar) bundle.getSerializable("curr_date");
             Calendar eventDate = (Calendar) bundle.getSerializable("event_date");
@@ -36,7 +40,6 @@ public class HowLongDetail extends ActionBarActivity {
             hour.setText(remainderHours(today, eventDate) + " Hour" + addEss(remainderHours(today, eventDate)));
             minute.setText(remainderMinutes(today, eventDate) + " Minute" + addEss(remainderMinutes(today, eventDate)));
             event.setText(dateFormat.format(eventDate.getTime()));
-
         }
     };
 
@@ -72,12 +75,6 @@ public class HowLongDetail extends ActionBarActivity {
                         bndl.putSerializable("event_date", eventDate);
                         msg.setData(bndl);
                         handler.sendMessage(msg);
-                        /*month.setText(monthsBetween(today, eventDate) + " Month" + addEss(monthsBetween(today, eventDate)));
-                        day.setText(remainderDays(today, eventDate) + " Day" + addEss(remainderDays(today, eventDate)));
-                        hour.setText(remainderHours(today, eventDate) + " Hour" + addEss(remainderHours(today, eventDate)));
-                        minute.setText(remainderMinutes(today, eventDate) + " Minute" + addEss(remainderMinutes(today, eventDate)));
-                        second.setText(remainderSeconds(today, eventDate) + " Second" + addEss(remainderSeconds(today, eventDate)));
-                        event.setText(dateFormat.format(eventDate.getTime()));*/
                         Thread.sleep(1000l);
                     }
                 }catch(InterruptedException e){
@@ -90,6 +87,19 @@ public class HowLongDetail extends ActionBarActivity {
         Thread thdA = new Thread(r);
         thdA.start();
         //curr.setText(dateFormat.format(today.getTime()));
+    }
+
+    public void saveEvent (View view) {
+        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+        Date d = new Date();
+        String event_date = event.getText().toString();
+        try {
+            d = dateFormat.parse(event_date);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        EventDate event = new EventDate("TestName", d);
+        dbHandler.addEvent(event);
     }
 
 

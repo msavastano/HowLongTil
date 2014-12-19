@@ -8,5 +8,6 @@
     <string name="title_activity_how_long_detail">How Long Til</string>
     <string name="how_long_button_text">How  Long?</string>
     <string name="until_text">Until...</string>
+    <string name="save_text">Save</string>
 
 </resources>
