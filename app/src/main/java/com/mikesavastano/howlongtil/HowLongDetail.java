@@ -1,5 +1,8 @@
 package com.mikesavastano.howlongtil;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.os.Environment;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,8 +10,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,10 +25,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import android.os.Handler;
+import android.widget.Toast;
 
 
 public class HowLongDetail extends ActionBarActivity {
-
+    final String TAG = "com.mikesavastano.howlongdetail.saveevent";
     TextView curr;
     TextView event;
     TextView month;
@@ -28,7 +38,9 @@ public class HowLongDetail extends ActionBarActivity {
     TextView minute;
     TextView second;
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    //Boolean whileOn;
     //Runnable r;
+    Thread thdA;
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
 
@@ -50,7 +62,6 @@ public class HowLongDetail extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_how_long_detail);
 
         curr = (TextView) findViewById(R.id.currentDate);
@@ -64,7 +75,7 @@ public class HowLongDetail extends ActionBarActivity {
         Runnable r = new Runnable(){
             @Override
             public void run() {
-
+                //whileOn = true;
                 try {
                     while (true) {
                         Calendar today = Calendar.getInstance();
@@ -85,11 +96,40 @@ public class HowLongDetail extends ActionBarActivity {
 
             }
         };
-        Thread thdA = new Thread(r);
+        thdA = new Thread(r);
         thdA.start();
         //curr.setText(dateFormat.format(today.getTime()));
     }
-    final String TAG = "com.mikesavastano.howlongdetail.saveevent";
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //thdA.interrupt();
+        //whileOn = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //if(thdA.isInterrupted()) {
+            //thdA.start();
+        //}
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //whileOn = true;
+        //thdA.start();
+    }
+
+
     public void saveEvent (View view) {
         MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
         Date d = new Date();
@@ -102,8 +142,40 @@ public class HowLongDetail extends ActionBarActivity {
         }
         EventDate event = new EventDate("TestName", d);
         dbHandler.addEvent(event);
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 
+    public Bitmap screenShot(View view) {
+        //File mkdir = new File();
+        //mkdir.mkdirs();
+
+        File mPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES+"/HowLongTil");
+        View bigView = findViewById(R.id.relLayoutEventScreen);
+        Bitmap bitmap = Bitmap.createBitmap(bigView.getWidth(), bigView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        bigView.draw(canvas);
+
+        OutputStream fout;
+        File imageFile = new File(mPath, "pic.jpg");
+
+        try {
+            fout = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout);
+            fout.flush();
+            fout.close();
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        Toast.makeText(getApplicationContext(), "Shared", Toast.LENGTH_LONG).show();
+        Log.i(TAG, imageFile.toString());
+        return bitmap;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

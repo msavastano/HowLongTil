@@ -4,12 +4,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:id="@+id/relLayoutEventScreen"
     tools:context="com.mikesavastano.howlongtil.HowLongDetail">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:id="@+id/linLayoutEventScreen"
+        android:focusableInTouchMode="false">
 
         <TextView android:text="curr date"
             android:layout_width="fill_parent"
@@ -25,7 +28,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/textViewMonth"
-            android:padding="16dp"
+            android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
 
         <TextView
@@ -34,7 +37,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/textViewDay"
-            android:padding="16dp"
+            android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
 
         <TextView
@@ -43,7 +46,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/textViewHour"
-            android:padding="16dp"
+            android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
 
         <TextView
@@ -52,7 +55,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/textViewMinute"
-            android:padding="16dp"
+            android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
 
         <TextView
@@ -61,16 +64,14 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/textViewSecond"
-            android:padding="16dp"
+            android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/until_text"
-            android:id="@+id/textView"
-            android:padding="8dp"
+            android:id="@+id/textViewUntil"
             android:gravity="center_vertical|center_horizontal" />
 
         <TextView
@@ -88,9 +89,17 @@
             android:layout_height="wrap_content"
             android:text="@string/save_text"
             android:id="@+id/saveButton"
-            android:padding="8dp"
+            android:padding="4dp"
             android:layout_gravity="center_horizontal"
             android:onClick="saveEvent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share_text"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal"
+            android:onClick="screenShot" />
     </LinearLayout>
 
 </RelativeLayout>
