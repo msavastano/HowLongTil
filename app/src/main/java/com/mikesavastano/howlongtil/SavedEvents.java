@@ -65,7 +65,7 @@ public class SavedEvents extends Activity {
                   evdate = cur.getString(0);
                   cur.moveToNext();
                 }
-                Long unixtime = Long.parseLong(evdate, 36);
+                Long unixtime = Long.parseLong(evdate);
                 Calendar unix2Cal = Calendar.getInstance();
                 unix2Cal.setTimeInMillis(unixtime);
 
@@ -73,7 +73,8 @@ public class SavedEvents extends Activity {
                 detailsView.putExtra("event", unix2Cal);
                 startActivity(detailsView);
 
-                Toast.makeText(getApplicationContext(), unix2Cal.toString() , Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getApplicationContext(), evdate , Toast.LENGTH_LONG).show();
             }
         });
 

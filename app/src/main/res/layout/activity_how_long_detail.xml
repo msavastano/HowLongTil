@@ -15,7 +15,7 @@
         android:focusableInTouchMode="false">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/nameEditText"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -83,24 +83,31 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:padding="10dp" />
 
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="false"
+        android:layout_alignBottom="@+id/linLayoutEventScreen">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="@string/share_text"
+            android:id="@+id/shareButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentRight="true" />
+
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:text="@string/save_text"
             android:id="@+id/saveButton"
             android:padding="4dp"
             android:layout_gravity="center_horizontal"
             android:onClick="saveEvent" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/share_text"
-            android:id="@+id/shareButton"
-            android:layout_gravity="center_horizontal"
-             />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

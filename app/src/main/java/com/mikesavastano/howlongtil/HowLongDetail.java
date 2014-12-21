@@ -1,8 +1,10 @@
 package com.mikesavastano.howlongtil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
@@ -42,6 +44,7 @@ public class HowLongDetail extends ActionBarActivity {
     TextView minute;
     TextView second;
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    DateFormat usDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     //Boolean whileOn;
     //Runnable r;
     Thread thdA;
@@ -57,7 +60,7 @@ public class HowLongDetail extends ActionBarActivity {
             day.setText(remainderDays(today, eventDate) + " Day" + addEss(remainderDays(today, eventDate)));
             hour.setText(remainderHours(today, eventDate) + " Hour" + addEss(remainderHours(today, eventDate)));
             minute.setText(remainderMinutes(today, eventDate) + " Minute" + addEss(remainderMinutes(today, eventDate)));
-            event.setText(dateFormat.format(eventDate.getTime()));
+            event.setText(usDateFormat.format(eventDate.getTime()));
         }
     };
 
@@ -110,50 +113,24 @@ public class HowLongDetail extends ActionBarActivity {
         ShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                File mPath = new File("/sdcard/Pictures/HowLongTil/");
-                mPath.mkdirs();
-                View bigView = findViewById(R.id.linLayoutEventScreen);
-                Bitmap bitmap = Bitmap.createBitmap(bigView.getWidth(), bigView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                bigView.draw(canvas);
 
-                OutputStream fout;
-                File imageFile = new File(mPath, "pic.png");
-
-                try {
-                    fout = new FileOutputStream(imageFile);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, fout);
-                    fout.flush();
-                    fout.close();
-
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                */
                 captureScreen();
 
                 Toast.makeText(getApplicationContext(), "Shared", Toast.LENGTH_LONG).show();
 
             }
         });
-
-
     }
 
     private void captureScreen() {
-        View v = getWindow().getDecorView().getRootView();
+        View v = getWindow().getDecorView().getRootView();  //getRootView();
         v.setDrawingCacheEnabled(true);
         Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
         v.setDrawingCacheEnabled(false);
+        String fd = Environment.getExternalStorageDirectory().toString()+"/Pictures/HowLongTil/";
+        String fn = "SCREEN" + System.currentTimeMillis() + ".png";
         try {
-            FileOutputStream fos = new FileOutputStream(new File(Environment
-                    .getExternalStorageDirectory().toString()+"/Pictures/HowLongTil/", "SCREEN"
-                    + System.currentTimeMillis() + ".png"));
+            FileOutputStream fos = new FileOutputStream(new File(fd, fn));
             bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
             fos.close();
@@ -162,6 +139,15 @@ public class HowLongDetail extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        openScreenshot(fd, fn);
+    }
+
+    private void openScreenshot(String fd, String fn){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse("file://" + fd + fn), "image/*");
+        startActivity(intent);
     }
 
     @Override
@@ -199,7 +185,7 @@ public class HowLongDetail extends ActionBarActivity {
         Log.i(TAG, event.getText().toString());
         String event_date = event.getText().toString();
         try {
-            d = dateFormat.parse(event_date);
+            d = usDateFormat.parse(event_date);
         }catch (ParseException e){
             e.printStackTrace();
         }
@@ -214,7 +200,7 @@ public class HowLongDetail extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 
-    public Bitmap screenShot(View view) {
+    /*public Bitmap screenShot(View view) {
         //File mkdir = new File();
         //mkdir.mkdirs();
 
@@ -244,8 +230,8 @@ public class HowLongDetail extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), "Shared", Toast.LENGTH_LONG).show();
         Log.i(TAG, imageFile.toString());
         return bitmap;
-    }
-
+    }*/
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -267,7 +253,7 @@ public class HowLongDetail extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+*/
     public static String addEss(int num){
         if (num == 1)
             return "";
