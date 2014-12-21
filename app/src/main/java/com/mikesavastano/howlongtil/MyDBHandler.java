@@ -56,36 +56,16 @@ public class MyDBHandler extends SQLiteOpenHelper {
     }
 
     public Cursor getAllEventDates() {
-        //String query = "Select * FROM " + TABLE_EVENTS;
-
-        //List<String> events = new ArrayList<>();
-        //HashMap<Integer, ArrayList> eventMap;
-
-        //SQLiteDatabase db = this.getReadableDatabase();
-
-        //Cursor cursor = db.rawQuery(query, null);
 
         return getReadableDatabase().query(TABLE_EVENTS,
                 new String[] { "_id", "name", "date"},
                 null, null, null, null, null);
+    }
 
-
-        //EventDate eventDate = new EventDate();
-
-        /*cursor_query.moveToFirst();
-        while (!cursor_query.isAfterLast()) {
-            //EventDate eventDate = cursorToComment(eventDate);
-
-            String name = cursor_query.getString(1);
-            //events.add(name);
-            Integer ID = cursor_query.getInt(0);
-            long edate = cursor_query.getLong(3);
-            cursor_query.moveToNext();
-        }
-        // make sure to close the cursor
-        cursor_query.close();
-        //Log.i(TAG, events.toString());
-        //return events;*/
+    public Cursor getDateByID(long id){
+        String i = String.valueOf(id);
+        return getReadableDatabase().query(TABLE_EVENTS, new String[]{"date"},
+                "_id = "+i,null,null,null,null);
     }
 
     /*private EventDate cursorToEvent(Cursor cursor) {

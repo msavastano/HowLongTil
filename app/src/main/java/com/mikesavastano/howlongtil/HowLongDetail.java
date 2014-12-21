@@ -1,11 +1,13 @@
 package com.mikesavastano.howlongtil;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -107,6 +110,7 @@ public class HowLongDetail extends ActionBarActivity {
         ShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 File mPath = new File("/sdcard/Pictures/HowLongTil/");
                 mPath.mkdirs();
                 View bigView = findViewById(R.id.linLayoutEventScreen);
@@ -115,11 +119,11 @@ public class HowLongDetail extends ActionBarActivity {
                 bigView.draw(canvas);
 
                 OutputStream fout;
-                File imageFile = new File(mPath, "pic.jpg");
+                File imageFile = new File(mPath, "pic.png");
 
                 try {
                     fout = new FileOutputStream(imageFile);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, fout);
                     fout.flush();
                     fout.close();
 
@@ -130,13 +134,34 @@ public class HowLongDetail extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                */
+                captureScreen();
 
                 Toast.makeText(getApplicationContext(), "Shared", Toast.LENGTH_LONG).show();
-                Log.i(TAG, imageFile.toString());
+
             }
         });
 
 
+    }
+
+    private void captureScreen() {
+        View v = getWindow().getDecorView().getRootView();
+        v.setDrawingCacheEnabled(true);
+        Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
+        v.setDrawingCacheEnabled(false);
+        try {
+            FileOutputStream fos = new FileOutputStream(new File(Environment
+                    .getExternalStorageDirectory().toString()+"/Pictures/HowLongTil/", "SCREEN"
+                    + System.currentTimeMillis() + ".png"));
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
