@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyDBHandler extends SQLiteOpenHelper {
@@ -18,7 +19,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "eventsDB.db";
     private static final String TABLE_EVENTS = "events";
 
-    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DATE = "date";
 
@@ -29,8 +30,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_EVENTS_TABLE = "CREATE TABLE " + TABLE_EVENTS + "(" + COLUMN_ID +
-                " INTEGER PRIMARY KEY," + COLUMN_NAME + " TEXT," + COLUMN_DATE + " DATE" + ")";
+        String CREATE_EVENTS_TABLE = "CREATE TABLE " + TABLE_EVENTS + "( " + COLUMN_ID +
+                " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME + " TEXT," + COLUMN_DATE + " DATE" + ")";
 
         db.execSQL(CREATE_EVENTS_TABLE);
 
@@ -54,35 +55,37 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<String> getAllEventDates() {
-        String query = "Select * FROM " + TABLE_EVENTS;
+    public Cursor getAllEventDates() {
+        //String query = "Select * FROM " + TABLE_EVENTS;
 
-        List<String> events = new ArrayList<>();
+        //List<String> events = new ArrayList<>();
+        //HashMap<Integer, ArrayList> eventMap;
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        //SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(query, null);
+        //Cursor cursor = db.rawQuery(query, null);
 
-        Cursor cursor_query = getReadableDatabase().query(TABLE_EVENTS,
-                new String[] { "id", "name", "date"},
+        return getReadableDatabase().query(TABLE_EVENTS,
+                new String[] { "_id", "name", "date"},
                 null, null, null, null, null);
 
-        EventDate eventDate = new EventDate();
 
-        cursor_query.moveToFirst();
+        //EventDate eventDate = new EventDate();
+
+        /*cursor_query.moveToFirst();
         while (!cursor_query.isAfterLast()) {
             //EventDate eventDate = cursorToComment(eventDate);
 
             String name = cursor_query.getString(1);
-            events.add(name);
+            //events.add(name);
             Integer ID = cursor_query.getInt(0);
             long edate = cursor_query.getLong(3);
             cursor_query.moveToNext();
         }
         // make sure to close the cursor
         cursor_query.close();
-        Log.i(TAG, events.toString());
-        return events;
+        //Log.i(TAG, events.toString());
+        //return events;*/
     }
 
     /*private EventDate cursorToEvent(Cursor cursor) {

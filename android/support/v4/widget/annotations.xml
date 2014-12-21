@@ -1,0 +1,5 @@
+<root>
+    <item name='android.support.v4.widget.SimpleCursorAdapter'>
+        <annotation name='java.lang.annotation.Deprecated' />
+    </item>
+</root>
