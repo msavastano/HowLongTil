@@ -1,5 +1,6 @@
 package com.mikesavastano.howlongtil;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
@@ -20,16 +21,17 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 
-public class SavedEvents extends ListActivity {
+public class SavedEvents extends Activity {
     final String TAG = "com.mikesavastano.howlongtil.SavedEvents";
     private MyDBHandler dbHelper;
-    private SQLiteDatabase database;
+    //private SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, dbHelper.getAllEventDates().toString());
-        //setContentView(R.layout.activity_saved_events);
+        //Log.i(TAG, "list " + dbHelper.getAllEventDates().toString());
+        //System.out.println(dbHelper.getAllEventDates().toString());
+        setContentView(R.layout.activity_saved_events);
         //String query = "Select * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCTNAME + " =  \"" + productname + "\"";
         dbHelper = new MyDBHandler(this, null, null, 1);
         //database = dbHelper.getWritableDatabase();
@@ -37,10 +39,10 @@ public class SavedEvents extends ListActivity {
         //new String[] { "_id", "name", "date"},
         String[] from = {"name"};
         int[] to = {android.R.id.text1};
-        ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
 
         ListAdapter savedListAdapter=new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,
                 ed, from, to);
+        ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
 
         savedList.setAdapter(savedListAdapter);
 

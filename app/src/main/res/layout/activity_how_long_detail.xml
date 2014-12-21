@@ -14,19 +14,20 @@
         android:id="@+id/linLayoutEventScreen"
         android:focusableInTouchMode="false">
 
-        <TextView android:text="curr date"
-            android:layout_width="fill_parent"
+        <EditText
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/currentDate"
-            android:layout_below="@+id/eventDate"
-            android:gravity="center_vertical|center_horizontal"
-            android:padding="8dp" />
+            android:id="@+id/nameEditText"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:padding="8dp"
+            android:layout_gravity="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
+            android:text=""
             android:id="@+id/textViewMonth"
             android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
@@ -35,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
+            android:text=""
             android:id="@+id/textViewDay"
             android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
@@ -44,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
+            android:text=""
             android:id="@+id/textViewHour"
             android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
@@ -53,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
+            android:text=""
             android:id="@+id/textViewMinute"
             android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
@@ -62,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
+            android:text=""
             android:id="@+id/textViewSecond"
             android:padding="8dp"
             android:gravity="center_vertical|center_horizontal" />
@@ -97,9 +98,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/share_text"
-            android:id="@+id/button"
+            android:id="@+id/shareButton"
             android:layout_gravity="center_horizontal"
-            android:onClick="screenShot" />
+             />
+
     </LinearLayout>
 
 </RelativeLayout>

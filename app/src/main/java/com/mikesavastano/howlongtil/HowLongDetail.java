@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ import android.widget.Toast;
 
 public class HowLongDetail extends ActionBarActivity {
     final String TAG = "com.mikesavastano.howlongdetail.saveevent";
-    TextView curr;
+    TextView name;
     TextView event;
     TextView month;
     TextView day;
@@ -41,6 +42,7 @@ public class HowLongDetail extends ActionBarActivity {
     //Boolean whileOn;
     //Runnable r;
     Thread thdA;
+    Button ShareButton;
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
 
@@ -64,7 +66,7 @@ public class HowLongDetail extends ActionBarActivity {
 
         setContentView(R.layout.activity_how_long_detail);
 
-        curr = (TextView) findViewById(R.id.currentDate);
+        name = (TextView) findViewById(R.id.nameEditText);
         event = (TextView) findViewById(R.id.eventDate);
         month = (TextView) findViewById(R.id.textViewMonth);
         day = (TextView) findViewById(R.id.textViewDay);
@@ -99,6 +101,42 @@ public class HowLongDetail extends ActionBarActivity {
         thdA = new Thread(r);
         thdA.start();
         //curr.setText(dateFormat.format(today.getTime()));
+
+        ShareButton = (Button) findViewById(R.id.shareButton);
+
+        ShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File mPath = new File("/sdcard/Pictures/HowLongTil/");
+                mPath.mkdirs();
+                View bigView = findViewById(R.id.linLayoutEventScreen);
+                Bitmap bitmap = Bitmap.createBitmap(bigView.getWidth(), bigView.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                bigView.draw(canvas);
+
+                OutputStream fout;
+                File imageFile = new File(mPath, "pic.jpg");
+
+                try {
+                    fout = new FileOutputStream(imageFile);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout);
+                    fout.flush();
+                    fout.close();
+
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(getApplicationContext(), "Shared", Toast.LENGTH_LONG).show();
+                Log.i(TAG, imageFile.toString());
+            }
+        });
+
+
     }
 
     @Override
@@ -140,7 +178,13 @@ public class HowLongDetail extends ActionBarActivity {
         }catch (ParseException e){
             e.printStackTrace();
         }
-        EventDate event = new EventDate("TestName", d);
+        String eventName;
+        if (name.getText() == null){
+            eventName = d.toString();
+        }else{
+            eventName = name.getText().toString();
+        }
+        EventDate event = new EventDate(eventName, d);
         dbHandler.addEvent(event);
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
