@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Message;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -55,6 +58,7 @@ public class HowLongDetail extends ActionBarActivity {
             Bundle bundle = msg.getData();
             Calendar today = (Calendar) bundle.getSerializable("curr_date");
             Calendar eventDate = (Calendar) bundle.getSerializable("event_date");
+
             month.setText(monthsBetween(today, eventDate) + " Month" + addEss(monthsBetween(today, eventDate)));
             second.setText(remainderSeconds(today, eventDate) + " Second" + addEss(remainderSeconds(today, eventDate)));
             day.setText(remainderDays(today, eventDate) + " Day" + addEss(remainderDays(today, eventDate)));
@@ -71,6 +75,9 @@ public class HowLongDetail extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_how_long_detail);
+        View rootView = getWindow().getDecorView().getRootView();
+
+        rootView.setBackgroundColor(Color.LTGRAY);
 
         name = (TextView) findViewById(R.id.nameEditText);
         event = (TextView) findViewById(R.id.eventDate);
@@ -123,12 +130,29 @@ public class HowLongDetail extends ActionBarActivity {
     }
 
     private void captureScreen() {
+        String fd; // = "";
+        String fn; // = "";
         View v = getWindow().getDecorView().getRootView();  //getRootView();
         v.setDrawingCacheEnabled(true);
         Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
         v.setDrawingCacheEnabled(false);
-        String fd = Environment.getExternalStorageDirectory().toString()+"/Pictures/HowLongTil/";
-        String fn = "SCREEN" + System.currentTimeMillis() + ".png";
+        if(isExternalStorageWritable()) {
+            File p = new File(Environment.getExternalStorageDirectory() + "/Pictures/HowLongTil");
+            if(!p.exists()){
+                p.mkdir();
+            }
+
+            Log.i(TAG, "External drive writable");
+            Log.i(TAG, Environment.getExternalStorageDirectory().toString());
+            fd = Environment.getExternalStorageDirectory().toString() + "/Pictures/HowLongTil";
+            fn = "SCREEN" + System.currentTimeMillis() + ".png";
+        }else{
+            Log.i(TAG, "External drive NOT writable");
+            fd = new File(getApplicationContext().getFilesDir() + "/Pictures/HowLongTil/", "SCREEN" + System.currentTimeMillis() + ".png").toString();
+            fn = "";
+        }
+        //String intfd = Environment.get
+
         try {
             FileOutputStream fos = new FileOutputStream(new File(fd, fn));
             bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
@@ -143,10 +167,19 @@ public class HowLongDetail extends ActionBarActivity {
         openScreenshot(fd, fn);
     }
 
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
     private void openScreenshot(String fd, String fn){
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse("file://" + fd + fn), "image/*");
+        Log.i(TAG, "file://" + fd + "/" + fn);
+        intent.setDataAndType(Uri.parse("file://" + fd + "/" + fn), "image/*");
         startActivity(intent);
     }
 
@@ -266,7 +299,7 @@ public class HowLongDetail extends ActionBarActivity {
     }
 
     public static boolean isEventToday(Calendar today, Calendar event){
-        return daysBetween(today, event) == 0;
+        return hoursBetween(today, event) < 0 && daysBetween(today, event) == 0;
     }
 
     public static long millisBetween(Calendar today, Calendar event){

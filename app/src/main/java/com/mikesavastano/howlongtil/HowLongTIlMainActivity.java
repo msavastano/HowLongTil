@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -48,13 +49,19 @@ public class HowLongTIlMainActivity extends ActionBarActivity {
         eventDate.set(Calendar.MINUTE, 0);
         eventDate.set(Calendar.SECOND, 0);
         eventDate.set(Calendar.MILLISECOND, 0);
+        if(HowLongDetail.isEventToday(today, eventDate)){
+            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_today_text),Toast.LENGTH_LONG).show();
+        }else if(HowLongDetail.isEventBeforeToday(today,eventDate)){
+            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_before_today_text),Toast.LENGTH_LONG).show();
+        }else{
 
-        detailsView = new Intent(this, HowLongDetail.class);
-        //Bundle bun = new Bundle();
-        //bun.putString("c", today.getTime().toString());
-        //bun.putString("e", Integer.toString(eventDate.WEEK_OF_YEAR));
-        detailsView.putExtra("event", eventDate);
-        startActivity(detailsView);
+            detailsView = new Intent(this, HowLongDetail.class);
+            //Bundle bun = new Bundle();
+            //bun.putString("c", today.getTime().toString());
+            //bun.putString("e", Integer.toString(eventDate.WEEK_OF_YEAR));
+            detailsView.putExtra("event", eventDate);
+            startActivity(detailsView);
+        }
     }
 
 
