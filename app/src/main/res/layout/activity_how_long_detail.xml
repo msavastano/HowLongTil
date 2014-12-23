@@ -8,15 +8,17 @@
     tools:context="com.mikesavastano.howlongtil.HowLongDetail">
 
     <LinearLayout
+        android:background="@drawable/textlines"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/linLayoutEventScreen"
         android:focusableInTouchMode="false"
-        android:background="#ff5967ff"
+
         android:alpha=".7">
 
         <RelativeLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -35,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/nameEditText"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+
                 android:padding="8dp"
                 android:layout_gravity="center"
                 android:layout_toRightOf="@+id/textViewName"
@@ -43,6 +46,7 @@
         </RelativeLayout>
 
         <TextView
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -113,9 +117,9 @@
             android:id="@+id/eventDate"
             android:gravity="center_vertical|center_horizontal"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:padding="10dp"
+            android:padding="5dp"
             android:textColor="#fff7fbf9"
-            android:textSize="55dp" />
+            android:textSize="45dp" />
 
     </LinearLayout>
 
@@ -132,7 +136,8 @@
             android:id="@+id/shareButton"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentRight="true"
-            android:background="#ffff8018" />
+            android:background="#ffff8018"
+            android:layout_margin="10dp" />
 
         <Button
             android:layout_width="90dp"
@@ -143,7 +148,8 @@
             android:layout_gravity="center_horizontal"
             android:onClick="saveEvent"
             android:background="#ffff8018"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_margin="10dp" />
     </RelativeLayout>
 
 </RelativeLayout>
