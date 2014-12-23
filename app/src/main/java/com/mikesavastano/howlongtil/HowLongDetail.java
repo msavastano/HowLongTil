@@ -70,8 +70,6 @@ public class HowLongDetail extends ActionBarActivity {
         }
     };
 
-    //TextView until;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,108 +106,10 @@ public class HowLongDetail extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-
             }
         };
         thdA = new Thread(r);
         thdA.start();
-        //curr.setText(dateFormat.format(today.getTime()));
-
-        ShareButton = (Button) findViewById(R.id.shareButton);
-
-        ShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                captureScreen();
-
-                Toast.makeText(getApplicationContext(), "Shared", Toast.LENGTH_LONG).show();
-
-            }
-        });
-    }
-
-    private void captureScreen() {
-        String fd = "";
-        String fn; // = "";
-        View v = getWindow().getDecorView().getRootView();  //getRootView();
-        v.setDrawingCacheEnabled(true);
-        Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
-        v.setDrawingCacheEnabled(false);
-        File filefd = new File("","");
-        if(isExternalStorageWritable()) {
-            File p = new File(Environment.getExternalStorageDirectory() + "/Pictures/HowLongTil");
-            if(!p.exists()){
-                p.mkdir();
-            }
-
-            Log.i(TAG, "External drive writable");
-            Log.i(TAG, Environment.getExternalStorageDirectory().toString());
-            fd = Environment.getExternalStorageDirectory().toString() + "/Pictures/HowLongTil";
-            fn = "SCREEN" + System.currentTimeMillis() + ".png";
-        }else{
-
-            File q = new File(getApplicationContext().getFilesDir() + "/Pictures/HowLongTil/");
-            if(!q.exists()){
-                q.mkdir();
-                Log.i(TAG, "External drive NOT writable");
-            }
-            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-            File directory = cw.getDir("Pictures", Context.MODE_PRIVATE);
-
-            filefd = new File(directory, "SCREEN" + System.currentTimeMillis() + ".png");
-            fn = "";
-        }
-
-        FileOutputStream fos = null;
-        try {
-
-            if(!isExternalStorageWritable()) {
-                fos = new FileOutputStream(filefd);
-            }else{
-                fos = new FileOutputStream(new File(fd, fn));
-            }
-            bmp.compress(Bitmap.CompressFormat.PNG, 25, fos);
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(isExternalStorageWritable()) {
-            openScreenshot(fd, fn);
-        }else{
-            openScreenshotInternal(filefd);
-        }
-    }
-
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    private void openScreenshotInternal(File fn){
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/png");
-        if(fn.exists()){
-            Log.i(TAG, "FILE EXISTS");
-        }
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(fn));
-        startActivity(Intent.createChooser(intent, "Share To"));
-    }
-
-    private void openScreenshot(String fd, String fn){
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        Uri uri = Uri.parse("file://" + fd + "/" + fn);
-        intent.setType("image/png");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(intent, "Share To"));
     }
 
     @Override
@@ -269,60 +169,6 @@ public class HowLongDetail extends ActionBarActivity {
         }
     }
 
-    /*public Bitmap screenShot(View view) {
-        //File mkdir = new File();
-        //mkdir.mkdirs();
-
-        File mPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES+"/HowLongTil");
-        View bigView = findViewById(R.id.relLayoutEventScreen);
-        Bitmap bitmap = Bitmap.createBitmap(bigView.getWidth(), bigView.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        bigView.draw(canvas);
-
-        OutputStream fout;
-        File imageFile = new File(mPath, "pic.jpg");
-
-        try {
-            fout = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout);
-            fout.flush();
-            fout.close();
-
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        Toast.makeText(getApplicationContext(), "Shared", Toast.LENGTH_LONG).show();
-        Log.i(TAG, imageFile.toString());
-        return bitmap;
-    }*/
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_how_long_detail, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-*/
     public static String addEss(int num){
         if (num == 1)
             return "";

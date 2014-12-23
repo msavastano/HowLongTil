@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -128,16 +130,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="false"
         android:layout_alignBottom="@+id/linLayoutEventScreen">
-
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="45dp"
-            android:text="@string/share_text"
-            android:id="@+id/shareButton"
-            android:layout_gravity="center_horizontal"
-            android:layout_alignParentRight="true"
-            android:background="#ffff8018"
-            android:layout_margin="10dp" />
 
         <Button
             android:layout_width="90dp"

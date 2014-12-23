@@ -56,9 +56,6 @@ public class HowLongTIlMainActivity extends ActionBarActivity {
         }else{
 
             detailsView = new Intent(this, HowLongDetail.class);
-            //Bundle bun = new Bundle();
-            //bun.putString("c", today.getTime().toString());
-            //bun.putString("e", Integer.toString(eventDate.WEEK_OF_YEAR));
             detailsView.putExtra("event", eventDate);
             startActivity(detailsView);
         }
