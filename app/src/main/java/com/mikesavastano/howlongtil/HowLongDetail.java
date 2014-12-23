@@ -1,6 +1,7 @@
 package com.mikesavastano.howlongtil;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -77,8 +79,6 @@ public class HowLongDetail extends ActionBarActivity {
         setContentView(R.layout.activity_how_long_detail);
         View rootView = getWindow().getDecorView().getRootView();
 
-        rootView.setBackgroundColor(Color.LTGRAY);
-
         name = (TextView) findViewById(R.id.nameEditText);
         event = (TextView) findViewById(R.id.eventDate);
         month = (TextView) findViewById(R.id.textViewMonth);
@@ -130,12 +130,13 @@ public class HowLongDetail extends ActionBarActivity {
     }
 
     private void captureScreen() {
-        String fd; // = "";
+        String fd = "";
         String fn; // = "";
         View v = getWindow().getDecorView().getRootView();  //getRootView();
         v.setDrawingCacheEnabled(true);
         Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
         v.setDrawingCacheEnabled(false);
+        File filefd = new File("","");
         if(isExternalStorageWritable()) {
             File p = new File(Environment.getExternalStorageDirectory() + "/Pictures/HowLongTil");
             if(!p.exists()){
@@ -147,15 +148,28 @@ public class HowLongDetail extends ActionBarActivity {
             fd = Environment.getExternalStorageDirectory().toString() + "/Pictures/HowLongTil";
             fn = "SCREEN" + System.currentTimeMillis() + ".png";
         }else{
-            Log.i(TAG, "External drive NOT writable");
-            fd = new File(getApplicationContext().getFilesDir() + "/Pictures/HowLongTil/", "SCREEN" + System.currentTimeMillis() + ".png").toString();
+
+            File q = new File(getApplicationContext().getFilesDir() + "/Pictures/HowLongTil/");
+            if(!q.exists()){
+                q.mkdir();
+                Log.i(TAG, "External drive NOT writable");
+            }
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            File directory = cw.getDir("Pictures", Context.MODE_PRIVATE);
+
+            filefd = new File(directory, "SCREEN" + System.currentTimeMillis() + ".png");
             fn = "";
         }
-        //String intfd = Environment.get
 
+        FileOutputStream fos = null;
         try {
-            FileOutputStream fos = new FileOutputStream(new File(fd, fn));
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+            if(!isExternalStorageWritable()) {
+                fos = new FileOutputStream(filefd);
+            }else{
+                fos = new FileOutputStream(new File(fd, fn));
+            }
+            bmp.compress(Bitmap.CompressFormat.PNG, 25, fos);
             fos.flush();
             fos.close();
         } catch (FileNotFoundException e) {
@@ -163,8 +177,11 @@ public class HowLongDetail extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        openScreenshot(fd, fn);
+        if(isExternalStorageWritable()) {
+            openScreenshot(fd, fn);
+        }else{
+            openScreenshotInternal(filefd);
+        }
     }
 
     public boolean isExternalStorageWritable() {
@@ -175,12 +192,24 @@ public class HowLongDetail extends ActionBarActivity {
         return false;
     }
 
+    private void openScreenshotInternal(File fn){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/png");
+        if(fn.exists()){
+            Log.i(TAG, "FILE EXISTS");
+        }
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(fn));
+        startActivity(Intent.createChooser(intent, "Share To"));
+    }
+
     private void openScreenshot(String fd, String fn){
         Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        Log.i(TAG, "file://" + fd + "/" + fn);
-        intent.setDataAndType(Uri.parse("file://" + fd + "/" + fn), "image/*");
-        startActivity(intent);
+        intent.setAction(Intent.ACTION_SEND);
+        Uri uri = Uri.parse("file://" + fd + "/" + fn);
+        intent.setType("image/png");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, "Share To"));
     }
 
     @Override
@@ -213,24 +242,31 @@ public class HowLongDetail extends ActionBarActivity {
 
 
     public void saveEvent (View view) {
-        MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
-        Date d = new Date();
-        Log.i(TAG, event.getText().toString());
-        String event_date = event.getText().toString();
-        try {
-            d = usDateFormat.parse(event_date);
-        }catch (ParseException e){
-            e.printStackTrace();
+        EditText EditNAME = (EditText) findViewById(R.id.nameEditText);
+        String ename = EditNAME.getText().toString();
+        if(ename.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Please fill out 'Name'", Toast.LENGTH_LONG).show();
+        }else {
+
+            MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
+            Date d = new Date();
+            Log.i(TAG, event.getText().toString());
+            String event_date = event.getText().toString();
+            try {
+                d = usDateFormat.parse(event_date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String eventName;
+            if (name.getText() == null) {
+                eventName = d.toString();
+            } else {
+                eventName = name.getText().toString();
+            }
+            EventDate event = new EventDate(eventName, d);
+            dbHandler.addEvent(event);
+            Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
         }
-        String eventName;
-        if (name.getText() == null){
-            eventName = d.toString();
-        }else{
-            eventName = name.getText().toString();
-        }
-        EventDate event = new EventDate(eventName, d);
-        dbHandler.addEvent(event);
-        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 
     /*public Bitmap screenShot(View view) {
