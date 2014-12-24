@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customListItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical|center_horizontal"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:textColor="#fff7fbf9"
+    android:textStyle="italic"
+    android:textSize="@dimen/abc_text_size_display_1_material"
+    android:padding="10dp" />

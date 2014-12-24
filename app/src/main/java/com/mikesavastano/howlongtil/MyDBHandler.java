@@ -24,6 +24,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_DATE = "date";
 
 
+
     public MyDBHandler(Context context, String name,  SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
@@ -66,6 +67,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
         String i = String.valueOf(id);
         return getReadableDatabase().query(TABLE_EVENTS, new String[]{"date"},
                 "_id = "+i,null,null,null,null);
+    }
+
+    public void deleteByID(long id){
+        String i = String.valueOf(id);
+        getWritableDatabase().delete(TABLE_EVENTS, "_id = "+i, null);
     }
 
     /*private EventDate cursorToEvent(Cursor cursor) {

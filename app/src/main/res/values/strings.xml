@@ -16,5 +16,6 @@
     <string name="thats_today_text">That is Today!</string>
     <string name="thats_before_today_text">That has already happened!</string>
     <string name="til_text">\'Til</string>
+    <string name="deleted_text">Deleted Event</string>
 
 </resources>

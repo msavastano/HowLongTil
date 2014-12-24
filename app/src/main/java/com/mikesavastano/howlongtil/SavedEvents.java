@@ -47,9 +47,9 @@ public class SavedEvents extends Activity {
         Cursor ed = dbHelper.getAllEventDates();
 
         String[] from = {"name"};
-        int[] to = {android.R.id.text1};
+        int[] to = {R.id.customListItem};
 
-        ListAdapter savedListAdapter=new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,
+        ListAdapter savedListAdapter=new SimpleCursorAdapter(this,R.layout.custom_simple_item,
                 ed, from, to);
         ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
 
@@ -78,13 +78,18 @@ public class SavedEvents extends Activity {
             }
         });
 
-        /*List<Integer> id = new ArrayList<>();
-        for(EventDate i : ed){
-            id.add(i.getID());
-        }*/
+        savedList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                dbHelper.deleteByID(id);
+                Intent i = new Intent(getApplicationContext(), SavedEvents.class);
+                startActivity(i);
+                Toast.makeText(getApplicationContext(), R.string.deleted_text, Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
 
-        //setListAdapter(new ArrayAdapter<>(this,
-                //android.R.layout.simple_list_item_checked, ed));
+
     }
 
 
