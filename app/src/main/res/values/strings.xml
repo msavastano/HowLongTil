@@ -17,5 +17,7 @@
     <string name="thats_before_today_text">That has already happened!</string>
     <string name="til_text">\'Til</string>
     <string name="deleted_text">Deleted Event</string>
+    <string name="fill_name_text">Please fill out \'Name\'</string>
+    <string name="saved_text">Saved</string>
 
 </resources>

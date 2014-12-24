@@ -57,6 +57,7 @@ public class HowLongTIlMainActivity extends ActionBarActivity {
 
             detailsView = new Intent(this, HowLongDetail.class);
             detailsView.putExtra("event", eventDate);
+            detailsView.putExtra("name", "");
             startActivity(detailsView);
         }
     }

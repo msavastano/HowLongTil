@@ -33,8 +33,6 @@ public class SavedEvents extends Activity {
     final String TAG = "com.mikesavastano.howlongtil.SavedEvents";
     private MyDBHandler dbHelper;
 
-    //private SQLiteDatabase database;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,18 +57,27 @@ public class SavedEvents extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cur = dbHelper.getDateByID(id);
+                Cursor curName = dbHelper.getNameByID(id);
                 cur.moveToFirst();
+                curName.moveToFirst();
                 String evdate = "";
+                String evname = "";
                 while(!cur.isAfterLast()){
                   evdate = cur.getString(0);
                   cur.moveToNext();
                 }
+                while(!curName.isAfterLast()){
+                    evname = curName.getString(0);
+                    curName.moveToNext();
+                }
+
                 Long unixtime = Long.parseLong(evdate);
                 Calendar unix2Cal = Calendar.getInstance();
                 unix2Cal.setTimeInMillis(unixtime);
 
                 Intent detailsView = new Intent(getApplicationContext(), HowLongDetail.class);
                 detailsView.putExtra("event", unix2Cal);
+                detailsView.putExtra("name", evname);
                 startActivity(detailsView);
             }
         });

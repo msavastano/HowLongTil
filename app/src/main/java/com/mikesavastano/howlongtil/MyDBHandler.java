@@ -69,6 +69,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 "_id = "+i,null,null,null,null);
     }
 
+    public Cursor getNameByID(long id){
+        String i = String.valueOf(id);
+        return getReadableDatabase().query(TABLE_EVENTS, new String[]{"name"},
+                "_id = "+i,null,null,null,null);
+    }
+
     public void deleteByID(long id){
         String i = String.valueOf(id);
         getWritableDatabase().delete(TABLE_EVENTS, "_id = "+i, null);

@@ -1,34 +1,14 @@
 package com.mikesavastano.howlongtil;
 
-import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.Environment;
+
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,19 +28,31 @@ public class HowLongDetail extends ActionBarActivity {
     TextView hour;
     TextView minute;
     TextView second;
-    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     DateFormat usDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    //Boolean whileOn;
-    //Runnable r;
     Thread thdA;
-    Button ShareButton;
+    Button saveButton;
+
     Handler handler = new Handler() {
+        /**
+         * Author MSavastano
+         * Date 12-24-14
+         *
+         * Handles the message sent from thread
+         * that updates screen 1x per second
+         *
+         * @param msg
+         */
         public void handleMessage(Message msg) {
 
             Bundle bundle = msg.getData();
             Calendar today = (Calendar) bundle.getSerializable("curr_date");
             Calendar eventDate = (Calendar) bundle.getSerializable("event_date");
+            String eventNameFromBundle = (String) bundle.getSerializable("name");
 
+            if(!eventNameFromBundle.isEmpty()) {
+                name.setText(eventNameFromBundle);
+                saveButton.setVisibility(View.INVISIBLE);
+            }
             month.setText(monthsBetween(today, eventDate) + " Month" + addEss(monthsBetween(today, eventDate)));
             second.setText(remainderSeconds(today, eventDate) + " Second" + addEss(remainderSeconds(today, eventDate)));
             day.setText(remainderDays(today, eventDate) + " Day" + addEss(remainderDays(today, eventDate)));
@@ -73,9 +65,7 @@ public class HowLongDetail extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_how_long_detail);
-        View rootView = getWindow().getDecorView().getRootView();
 
         name = (TextView) findViewById(R.id.nameEditText);
         event = (TextView) findViewById(R.id.eventDate);
@@ -84,26 +74,27 @@ public class HowLongDetail extends ActionBarActivity {
         hour = (TextView) findViewById(R.id.textViewHour);
         minute = (TextView) findViewById(R.id.textViewMinute);
         second = (TextView) findViewById(R.id.textViewSecond);
+        saveButton = (Button) findViewById(R.id.saveButton);
 
         Runnable r = new Runnable(){
             @Override
             public void run() {
-                //whileOn = true;
                 try {
                     while (true) {
                         Calendar today = Calendar.getInstance();
                         Calendar eventDate = (Calendar) getIntent().getSerializableExtra("event");
-                       // DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                        String eventName = (String) getIntent().getSerializableExtra("name");
+
                         Message msg = handler.obtainMessage();
                         Bundle bndl = new Bundle();
                         bndl.putSerializable("curr_date", today);
                         bndl.putSerializable("event_date", eventDate);
+                        bndl.putSerializable("name", eventName);
                         msg.setData(bndl);
                         handler.sendMessage(msg);
                         Thread.sleep(1000l);
                     }
                 }catch(InterruptedException e){
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -145,12 +136,12 @@ public class HowLongDetail extends ActionBarActivity {
         EditText EditNAME = (EditText) findViewById(R.id.nameEditText);
         String ename = EditNAME.getText().toString();
         if(ename.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please fill out 'Name'", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.fill_name_text, Toast.LENGTH_LONG).show();
         }else {
 
             MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
             Date d = new Date();
-            Log.i(TAG, event.getText().toString());
+
             String event_date = event.getText().toString();
             try {
                 d = usDateFormat.parse(event_date);
@@ -165,7 +156,7 @@ public class HowLongDetail extends ActionBarActivity {
             }
             EventDate event = new EventDate(eventName, d);
             dbHandler.addEvent(event);
-            Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.saved_text, Toast.LENGTH_LONG).show();
         }
     }
 
