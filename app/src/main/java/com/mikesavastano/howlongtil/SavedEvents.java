@@ -72,9 +72,6 @@ public class SavedEvents extends Activity {
                 Intent detailsView = new Intent(getApplicationContext(), HowLongDetail.class);
                 detailsView.putExtra("event", unix2Cal);
                 startActivity(detailsView);
-
-
-                Toast.makeText(getApplicationContext(), evdate , Toast.LENGTH_LONG).show();
             }
         });
 
