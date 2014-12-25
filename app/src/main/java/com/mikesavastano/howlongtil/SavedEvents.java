@@ -32,26 +32,22 @@ import android.content.Intent;
 public class SavedEvents extends Activity {
     final String TAG = "com.mikesavastano.howlongtil.SavedEvents";
     private MyDBHandler dbHelper;
+    ListView savedList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Log.i(TAG, "list " + dbHelper.getAllEventDates().toString());
-        //System.out.println(dbHelper.getAllEventDates().toString());
         setContentView(R.layout.activity_saved_events);
-        //String query = "Select * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCTNAME + " =  \"" + productname + "\"";
-        dbHelper = new MyDBHandler(this, null, null, 1);
-        //database = dbHelper.getWritableDatabase();
-        Cursor ed = dbHelper.getAllEventDates();
 
+        dbHelper = new MyDBHandler(this, null, null, 1);
+        Cursor ed = dbHelper.getAllEventDates();
         String[] from = {"name"};
         int[] to = {R.id.customListItem};
 
-        ListAdapter savedListAdapter=new SimpleCursorAdapter(this,R.layout.custom_simple_item,
-                ed, from, to);
+        ListAdapter savedListAdapter=new SimpleCursorAdapter(this,R.layout.custom_simple_item, ed, from, to);
         ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
-
         savedList.setAdapter(savedListAdapter);
+
 
         savedList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,10 +88,31 @@ public class SavedEvents extends Activity {
                 return true;
             }
         });
-
-
     }
 
+    private void createList(){
+        dbHelper = new MyDBHandler(this, null, null, 1);
+        Cursor ed = dbHelper.getAllEventDates();
+        String[] from = {"name"};
+        int[] to = {R.id.customListItem};
+
+        ListAdapter savedListAdapter=new SimpleCursorAdapter(this,R.layout.custom_simple_item, ed, from, to);
+        ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
+        savedList.setAdapter(savedListAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dbHelper = new MyDBHandler(this, null, null, 1);
+        Cursor ed = dbHelper.getAllEventDates();
+        String[] from = {"name"};
+        int[] to = {R.id.customListItem};
+
+        ListAdapter savedListAdapter=new SimpleCursorAdapter(this,R.layout.custom_simple_item, ed, from, to);
+        ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
+        savedList.setAdapter(savedListAdapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
