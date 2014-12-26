@@ -20,10 +20,10 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     /**
      * DB constructor
-     * @param context
-     * @param name
-     * @param factory
-     * @param version
+     * @param context Context
+     * @param name String
+     * @param factory SQLiteDatabase.CursorFactory
+     * @param version int
      */
     public MyDBHandler(Context context, String name,  SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -39,9 +39,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     /**
      * For future DB upgrades to data model - no use as of 1.0.0-beta
-     * @param db
-     * @param oldVersion
-     * @param newVersion
+     * @param db SQLiteDatabase
+     * @param oldVersion int
+     * @param newVersion int
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
