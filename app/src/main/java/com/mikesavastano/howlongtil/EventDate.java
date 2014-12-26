@@ -1,6 +1,5 @@
 package com.mikesavastano.howlongtil;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**

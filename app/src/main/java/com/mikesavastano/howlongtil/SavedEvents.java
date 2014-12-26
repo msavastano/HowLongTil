@@ -1,44 +1,33 @@
 package com.mikesavastano.howlongtil;
 
 import android.app.Activity;
-import android.app.ListActivity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
-import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
-
 
 public class SavedEvents extends Activity {
-    final String TAG = "com.mikesavastano.howlongtil.SavedEvents";
-    private MyDBHandler dbHelper;
-    ListView savedList;
 
+    final String TAG = "com.mikesavastano.howlongtil.SavedEvents";
+
+    private MyDBHandler dbHelper;
+
+    /**
+     * Call database and create list of saved events
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_events);
 
+        //Get name from events for display
         dbHelper = new MyDBHandler(this, null, null, 1);
         Cursor ed = dbHelper.getAllEventDates();
         String[] from = {"name"};
@@ -48,7 +37,7 @@ public class SavedEvents extends Activity {
         ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
         savedList.setAdapter(savedListAdapter);
 
-
+        //On click go to event detail page
         savedList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -58,23 +47,33 @@ public class SavedEvents extends Activity {
                 curName.moveToFirst();
                 String evdate = "";
                 String evname = "";
-                while(!cur.isAfterLast()){
-                  evdate = cur.getString(0);
-                  cur.moveToNext();
+                while (!cur.isAfterLast()) {
+                    evdate = cur.getString(0);
+                    cur.moveToNext();
                 }
-                while(!curName.isAfterLast()){
+                while (!curName.isAfterLast()) {
                     evname = curName.getString(0);
                     curName.moveToNext();
                 }
+
+                Calendar t = Calendar.getInstance();
 
                 Long unixtime = Long.parseLong(evdate);
                 Calendar unix2Cal = Calendar.getInstance();
                 unix2Cal.setTimeInMillis(unixtime);
 
-                Intent detailsView = new Intent(getApplicationContext(), HowLongDetail.class);
-                detailsView.putExtra("event", unix2Cal);
-                detailsView.putExtra("name", evname);
-                startActivity(detailsView);
+                //if event has passed or is 'today'. do not go to event detail page
+                if (HowLongDetail.isEventToday(t, unix2Cal)) {
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_today_text), Toast.LENGTH_LONG).show();
+                } else if (HowLongDetail.isEventBeforeToday(t, unix2Cal)) {
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_before_today_text), Toast.LENGTH_LONG).show();
+                } else {
+
+                    Intent detailsView = new Intent(getApplicationContext(), HowLongDetail.class);
+                    detailsView.putExtra("event", unix2Cal);
+                    detailsView.putExtra("name", evname);
+                    startActivity(detailsView);
+                }
             }
         });
 
@@ -90,17 +89,7 @@ public class SavedEvents extends Activity {
         });
     }
 
-    private void createList(){
-        dbHelper = new MyDBHandler(this, null, null, 1);
-        Cursor ed = dbHelper.getAllEventDates();
-        String[] from = {"name"};
-        int[] to = {R.id.customListItem};
-
-        ListAdapter savedListAdapter=new SimpleCursorAdapter(this,R.layout.custom_simple_item, ed, from, to);
-        ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
-        savedList.setAdapter(savedListAdapter);
-    }
-
+    //Make sure list is current on resume (backpress)
     @Override
     protected void onResume() {
         super.onResume();
@@ -112,27 +101,5 @@ public class SavedEvents extends Activity {
         ListAdapter savedListAdapter=new SimpleCursorAdapter(this,R.layout.custom_simple_item, ed, from, to);
         ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
         savedList.setAdapter(savedListAdapter);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_saved_events, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

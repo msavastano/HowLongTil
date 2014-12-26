@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 
 public class HowLongDetail extends ActionBarActivity {
+
     final String TAG = "com.mikesavastano.howlongdetail.saveevent";
+
     TextView name;
     TextView event;
     TextView month;
@@ -106,16 +108,11 @@ public class HowLongDetail extends ActionBarActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        //thdA.interrupt();
-        //whileOn = false;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //if(thdA.isInterrupted()) {
-            //thdA.start();
-        //}
     }
 
     @Override
@@ -127,8 +124,6 @@ public class HowLongDetail extends ActionBarActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        //whileOn = true;
-        //thdA.start();
     }
 
 
@@ -160,6 +155,11 @@ public class HowLongDetail extends ActionBarActivity {
         }
     }
 
+    /**
+     * Adds 's' or empty string depending on number
+     * @param num int
+     * @return String 's' or ''
+     */
     public static String addEss(int num){
         if (num == 1)
             return "";
@@ -167,10 +167,22 @@ public class HowLongDetail extends ActionBarActivity {
             return "s";
     }
 
+    /**
+     * Date comparison
+     * @param today Calendar
+     * @param event Calendar
+     * @return boolean
+     */
     public static boolean isEventBeforeToday(Calendar today, Calendar event){
         return daysBetween(today, event) < 0;
     }
 
+    /**
+     * Date comparison
+     * @param today Calendar
+     * @param event Calendar
+     * @return boolean
+     */
     public static boolean isEventToday(Calendar today, Calendar event){
         return hoursBetween(today, event) < 0 && daysBetween(today, event) == 0;
     }
@@ -178,6 +190,8 @@ public class HowLongDetail extends ActionBarActivity {
     public static long millisBetween(Calendar today, Calendar event){
         return event.getTimeInMillis() - today.getTimeInMillis();
     }
+
+    //Below functions compare dates and return dates in milliseconds
 
     public static long daysBetween(Calendar today , Calendar event) {
         long e = event.getTimeInMillis();
@@ -202,6 +216,9 @@ public class HowLongDetail extends ActionBarActivity {
         long t = today.getTimeInMillis();
         return TimeUnit.MILLISECONDS.toMinutes(e - t);
     }
+
+    //Below functions compare dates and return dates in time values
+
     public static int monthsBetween(Calendar today , Calendar event){
         return (int) (daysBetween(today, event) / (365.0/12.0));
     }
@@ -221,5 +238,4 @@ public class HowLongDetail extends ActionBarActivity {
     public static int remainderSeconds(Calendar today , Calendar event){
         return (int) (secondsBetween(today, event) - minutesBetween(today, event)*60);
     }
-
 }
