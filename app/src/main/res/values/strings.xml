@@ -14,7 +14,7 @@
     <string name="title_activity_saved_events">SavedEvents</string>
     <string name="name_text">Name:</string>
     <string name="thats_today_text">That is Today!</string>
-    <string name="thats_before_today_text">That has already happened!</string>
+    <string name="thats_before_today_text">That\'s already happened!</string>
     <string name="til_text">\'Til</string>
     <string name="deleted_text">Deleted Event</string>
     <string name="fill_name_text">Please fill out \'Name\'</string>

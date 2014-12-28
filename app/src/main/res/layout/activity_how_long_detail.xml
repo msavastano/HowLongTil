@@ -17,7 +17,7 @@
         android:id="@+id/linLayoutEventScreen"
         android:focusableInTouchMode="false"
 
-        android:alpha=".7">
+        >
 
         <RelativeLayout
 
@@ -31,21 +31,19 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/name_text"
                 android:id="@+id/textViewName"
-                android:layout_centerVertical="true"
                 android:textColor="#fff7fbf9"
-                android:paddingLeft="15dp"
-                android:gravity="bottom" />
+                android:layout_alignBaseline="@+id/nameEditText"
+                android:padding="15dp" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/nameEditText"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_gravity="center"
                 android:layout_toRightOf="@+id/textViewName"
                 android:textColor="#fff7fbf9"
-                android:layout_centerVertical="true"
-                android:gravity="bottom" />
+                android:inputType="text" />
+
         </RelativeLayout>
 
         <TextView
@@ -137,12 +135,10 @@
                 android:id="@+id/saveButton"
                 android:padding="6dp"
                 android:onClick="saveEvent"
-                android:background="#ffff8018"
-
-                android:shadowColor="#ff9a924d"
+                android:background="#ff080607"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                 />
+                android:textColor="#fff3f2ee" />
         </RelativeLayout>
 
     </LinearLayout>

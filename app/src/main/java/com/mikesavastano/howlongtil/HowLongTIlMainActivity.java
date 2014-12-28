@@ -3,6 +3,7 @@ package com.mikesavastano.howlongtil;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ public class HowLongTIlMainActivity extends ActionBarActivity {
     Calendar today;
     Calendar eventDate;
     Intent detailsView;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +46,16 @@ public class HowLongTIlMainActivity extends ActionBarActivity {
         eventDate.set(Calendar.SECOND, 0);
         eventDate.set(Calendar.MILLISECOND, 0);
 
+
         //Starts activity, but not if date n picker is today or earlier
         if(HowLongDetail.isEventToday(today, eventDate)){
-            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_today_text),Toast.LENGTH_LONG).show();
+            toast = Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_today_text),Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
         }else if(HowLongDetail.isEventBeforeToday(today,eventDate)){
-            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_before_today_text),Toast.LENGTH_LONG).show();
+            toast = Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_before_today_text),Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
         }else{
             detailsView = new Intent(this, HowLongDetail.class);
             detailsView.putExtra("event", eventDate);

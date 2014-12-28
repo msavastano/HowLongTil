@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,7 @@ public class HowLongDetail extends ActionBarActivity {
     DateFormat usDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     Thread thdA;
     Button saveButton;
+    Toast toast;
 
     Handler handler = new Handler() {
         /**
@@ -126,12 +128,14 @@ public class HowLongDetail extends ActionBarActivity {
         super.onRestart();
     }
 
-
     public void saveEvent (View view) {
+
         EditText EditNAME = (EditText) findViewById(R.id.nameEditText);
         String ename = EditNAME.getText().toString();
         if(ename.isEmpty()){
-            Toast.makeText(getApplicationContext(), R.string.fill_name_text, Toast.LENGTH_LONG).show();
+            toast = toast.makeText(getApplicationContext(), R.string.fill_name_text, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
         }else {
 
             MyDBHandler dbHandler = new MyDBHandler(this, null, null, 1);
@@ -151,7 +155,9 @@ public class HowLongDetail extends ActionBarActivity {
             }
             EventDate event = new EventDate(eventName, d);
             dbHandler.addEvent(event);
-            Toast.makeText(getApplicationContext(), R.string.saved_text, Toast.LENGTH_LONG).show();
+            toast = toast.makeText(getApplicationContext(), R.string.saved_text, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
         }
     }
 

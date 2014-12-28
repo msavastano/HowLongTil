@@ -6,6 +6,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.os.Bundle;
 import java.util.Calendar;
 import android.database.Cursor;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -16,7 +17,8 @@ public class SavedEvents extends Activity {
 
     final String TAG = "com.mikesavastano.howlongtil.SavedEvents";
 
-    private MyDBHandler dbHelper;
+    MyDBHandler dbHelper;
+    Toast toast;
 
     /**
      * Call database and create list of saved events
@@ -64,9 +66,13 @@ public class SavedEvents extends Activity {
 
                 //if event has passed or is 'today'. do not go to event detail page
                 if (HowLongDetail.isEventToday(t, unix2Cal)) {
-                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_today_text), Toast.LENGTH_LONG).show();
+                    toast = toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_today_text), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
                 } else if (HowLongDetail.isEventBeforeToday(t, unix2Cal)) {
-                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_before_today_text), Toast.LENGTH_LONG).show();
+                    toast = toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.thats_before_today_text), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
                 } else {
 
                     Intent detailsView = new Intent(getApplicationContext(), HowLongDetail.class);
@@ -83,7 +89,10 @@ public class SavedEvents extends Activity {
                 dbHelper.deleteByID(id);
                 Intent i = new Intent(getApplicationContext(), SavedEvents.class);
                 startActivity(i);
-                Toast.makeText(getApplicationContext(), R.string.deleted_text, Toast.LENGTH_LONG).show();
+                finish();
+                toast = toast.makeText(getApplicationContext(), R.string.deleted_text, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
                 return true;
             }
         });
