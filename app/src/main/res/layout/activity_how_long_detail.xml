@@ -16,35 +16,40 @@
         android:layout_height="fill_parent"
         android:id="@+id/linLayoutEventScreen"
         android:focusableInTouchMode="false"
-
         >
 
-        <RelativeLayout
+        <LinearLayout
 
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/name_text"
-                android:id="@+id/textViewName"
-                android:textColor="#fff7fbf9"
-                android:layout_alignBaseline="@+id/nameEditText"
-                android:padding="15dp" />
+            android:orientation="horizontal"
+            android:id="@+id/name_lin_layout"
+            android:layout_margin="5dp">
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/nameEditText"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_toRightOf="@+id/textViewName"
                 android:textColor="#fff7fbf9"
-                android:inputType="text" />
+                android:inputType="text"
 
-        </RelativeLayout>
+                android:layout_weight="3"
+                android:phoneNumber="false" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/save_text"
+                android:id="@+id/saveButton"
+                android:onClick="saveEvent"
+                android:background="#ff080607"
+                android:textColor="#fff3f2ee"
+
+                android:layout_weight="1"
+                android:layout_margin="6dp" />
+
+        </LinearLayout>
 
         <TextView
 
@@ -122,24 +127,6 @@
             android:textColor="#fff7fbf9"
             android:textSize="45dp"
             android:layout_weight="1" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:text="@string/save_text"
-                android:id="@+id/saveButton"
-                android:padding="6dp"
-                android:onClick="saveEvent"
-                android:background="#ff080607"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:textColor="#fff3f2ee" />
-        </RelativeLayout>
 
     </LinearLayout>
 
