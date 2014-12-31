@@ -54,10 +54,11 @@ public class HowLongDetail extends ActionBarActivity {
             Calendar eventDate = (Calendar) bundle.getSerializable("event_date");
             String eventNameFromBundle = (String) bundle.getSerializable("name");
 
+            //if send from saved events screen, remove button and make line full width of layout
             if(!eventNameFromBundle.isEmpty()) {
                 LinearLayout lin = (LinearLayout) findViewById(R.id.name_lin_layout);
                 lin.removeView(saveButton);
-                int n = name.getWidth();
+
                 int w = lin.getWidth();
                 name.setWidth(w);
                 name.setText(eventNameFromBundle);
