@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -53,9 +54,18 @@ public class HowLongDetail extends ActionBarActivity {
             Calendar eventDate = (Calendar) bundle.getSerializable("event_date");
             String eventNameFromBundle = (String) bundle.getSerializable("name");
 
+            //if send from saved events screen, remove button and make line full width of layout
             if(!eventNameFromBundle.isEmpty()) {
+                LinearLayout lin = (LinearLayout) findViewById(R.id.name_lin_layout);
+                lin.removeView(saveButton);
+
+                int w = lin.getWidth();
+                name.setWidth(w);
                 name.setText(eventNameFromBundle);
-                saveButton.setVisibility(View.INVISIBLE);
+
+                name.setCursorVisible(false);
+                name.setEnabled(false);
+
             }
             month.setText(monthsBetween(today, eventDate) + " Month" + addEss(monthsBetween(today, eventDate)));
             second.setText(remainderSeconds(today, eventDate) + " Second" + addEss(remainderSeconds(today, eventDate)));
