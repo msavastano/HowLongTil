@@ -73,12 +73,16 @@ public class HowLongTIlMainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent i;
         int id = item.getItemId();
         switch (id) {
             // Starts a saved list activity
             case R.id.saved_list:
-                Intent i = new Intent(this, SavedEvents.class);
+                i = new Intent(this, SavedEvents.class);
+                startActivity(i);
+                return true;
+            case R.id.holiday_list:
+                i = new Intent(this, HolidayList.class);
                 startActivity(i);
                 return true;
             default:

@@ -7,4 +7,8 @@
         android:title="@string/saved_events_text"
         app:showAsAction="never" />
 
+    <item android:id="@+id/holiday_list"
+        android:title="@string/title_activity_holiday_list"
+        app:showAsAction="never" />
+
 </menu>
