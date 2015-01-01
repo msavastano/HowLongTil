@@ -15,7 +15,22 @@ public class HolidayCalendar {
     public List<List<String>> holidays = new ArrayList<List<String>>();
 
     public HolidayCalendar() {
+        holidays.add(Arrays.asList("99", "99", "1", "0", "New Years Day"));
+        holidays.add(Arrays.asList("3", "2", "0", "99", "Martin Luther King Day (US)"));
+        holidays.add(Arrays.asList("99", "99", "1", "14", "Valentine's Day"));
+        holidays.add(Arrays.asList("3", "2", "1", "99", "President's Day (US)"));
+        holidays.add(Arrays.asList("99", "99", "2", "17", "St. Patrick's Day (US)"));
+        //Good Friday
+        //Easter
+        holidays.add(Arrays.asList("99", "99", "3", "15", "Tax Day (US)"));
+        holidays.add(Arrays.asList("99", "99", "4", "5", "Cinco de Mayo"));
         holidays.add(Arrays.asList("2", "1", "4", "99", "Mother's Day (US)"));
+        //last monday holidays.add(Arrays.asList("2", "1", "4", "99", "Memorial Day (US)"));
+        holidays.add(Arrays.asList("99", "99", "6", "4", "Independence Day (US)"));
+        holidays.add(Arrays.asList("1", "2", "8", "99", "Labor Day (US)"));
+        holidays.add(Arrays.asList("99", "99", "9", "31", "Halloween (US)"));
+        holidays.add(Arrays.asList("99", "99", "10", "11", "Veterans Day (US)"));
+        holidays.add(Arrays.asList("4", "5", "10", "99", "Thanksgiving Day (US)"));
         holidays.add(Arrays.asList("99", "99", "11", "25", "Christmas (US)"));
     }
 

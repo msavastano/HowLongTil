@@ -9,19 +9,45 @@
     tools:context="com.mikesavastano.howlongtil.HolidayList">
 
 
-    <TextView
+    <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:text="@string/title_activity_holiday_list"
-        android:id="@+id/textHolidaysTitle"
-        android:gravity="center_vertical|center_horizontal" />
+        android:orientation="horizontal"
+        android:id="@+id/year_lin_layout"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/year_text"
+            android:id="@+id/yearTextView"
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="80dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/yearEditText"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ff080607"
+            android:inputType="number|none"
+            android:maxLength="4"
+            android:digits="0123456789"
+            android:gravity="center" />
+
+        <!--android:onClick="saveEvent" -->
+
+
+    </LinearLayout>
+
+
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/listHolidayEvents"
-        android:layout_below="@+id/textHolidaysTitle"
         android:padding="4dp"
-        android:background="@drawable/textlines" />
+        android:background="@drawable/textlines"
+        android:layout_below="@+id/year_lin_layout" />
 </RelativeLayout>
