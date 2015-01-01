@@ -1,49 +1,72 @@
 package com.mikesavastano.howlongtil;
 
-import java.util.Calendar;
+import android.content.Intent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class HolidayCalendar {
 
-    public static Calendar NewYears (int nYear)  {
-        // January 1st
-        Calendar newYears = Calendar.getInstance();
-        newYears.set(nYear, Calendar.JANUARY, 1);
-        return newYears;
+    public List<List<String>> holidays = new ArrayList<List<String>>();
+
+    public HolidayCalendar() {
+        holidays.add(Arrays.asList("2", "1", "4", "99", "Mother's Day (US)"));
+        holidays.add(Arrays.asList("99", "99", "11", "25", "Christmas (US)"));
     }
 
-    public Calendar MartinLutherKing (int nYear) {
-        // Third Monday in January
-        Calendar mlkDay = Calendar.getInstance();
-        mlkDay.set(nYear, Calendar.JANUARY, 1);
-        int day = mlkDay.get(Calendar.DAY_OF_WEEK);
-        switch(day){
-            case 1:
-                mlkDay.set(nYear, Calendar.JANUARY, 16);
-            case 2:
-                mlkDay.set(nYear, Calendar.JANUARY, 15);
-            case 3:
-                mlkDay.set(nYear, Calendar.JANUARY, 21);
-            case 4:
-                mlkDay.set(nYear, Calendar.JANUARY, 20);
-            case 5:
-                mlkDay.set(nYear, Calendar.JANUARY, 19);
-            case 6:
-                mlkDay.set(nYear, Calendar.JANUARY, 18);
-            default:
-                mlkDay.set(nYear, Calendar.JANUARY, 17);
+    public Map mapMaker(final List<String> hol){
+        Map<String, Integer> w = new HashMap<String, Integer>(){{
+            put("weekOfMonth", Integer.valueOf(hol.get(0)));
+            put("dayOfWeek", Integer.valueOf(hol.get(1)));
+            put("month", Integer.valueOf(hol.get(2)));
+            put("dayOfMonth", Integer.valueOf(hol.get(3)));
+        }};
+        return w;
+    }
 
-            return mlkDay;
+    public Calendar calcHoliday (Map<String, Integer> date, int nyear) {
+        Calendar hol = Calendar.getInstance();
+        if(date.get("dayOfMonth") == 99){
+            Integer week = date.get("weekOfMonth"); //week of month
+            Integer day = date.get("dayOfWeek");  //day of week
+            Integer month = date.get("month"); //month
+            int dte = getHolDay(week, day, month, nyear);
+            hol.set(nyear, month, dte);
+        }else{
+            Integer dayofmonth = date.get("dayOfMonth");
+            hol.set(nyear, date.get("month"), dayofmonth);
+        }
+        return hol;
+    }
+
+    private int getHolDay(int week, int day, int month, int year){
+        Calendar d = Calendar.getInstance();
+        d.set(Calendar.YEAR, year);
+        d.set(Calendar.MONTH, month);
+        d.set(Calendar.DAY_OF_WEEK, day);
+        d.set(Calendar.DAY_OF_WEEK_IN_MONTH, week);
+        return d.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static void main(String [] args){
+        HolidayCalendar h = new HolidayCalendar();
+        System.out.println( h.holidays.get(0).get(4) );
+
+        for(List<String> holiday : h.holidays){
+            System.out.println(holiday.get(4));
+            System.out.println(h.mapMaker(holiday));
+            //System.out.println(xx.get(Calendar.DAY_OF_MONTH));
         }
     }
 
     public static Calendar EasterSunday(int nYear)
     {
-
-
         Calendar easter = Calendar.getInstance();
-
 
         int nEasterMonth;
         int nEasterDay;
@@ -85,8 +108,4 @@ public class HolidayCalendar {
         // Populate the date object...
         return easter;
     }
-
-
-
-
 }

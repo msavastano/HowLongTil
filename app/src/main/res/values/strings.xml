@@ -19,5 +19,6 @@
     <string name="deleted_text">Deleted Event</string>
     <string name="fill_name_text">Please fill in a name</string>
     <string name="saved_text">Saved</string>
+    <string name="title_activity_holiday_list">Holiday List</string>
 
 </resources>
