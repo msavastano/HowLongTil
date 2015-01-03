@@ -10,10 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import  org.joda.time.DateTime;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.chrono.IslamicChronology;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import com.ibm.icu.util.*;
+
 
 
 public class HolidayCalendar {
@@ -128,18 +131,20 @@ public class HolidayCalendar {
     }
 
     public String EidAlFitr(int nyear){
-        DateTime dateTime = new DateTime(nyear, 10, 1, 0, 0);
+        ULocale l = new ULocale("@calendar=islamic");
+
+        IslamicCalendar dtIslamic = new com.ibm.icu.util.IslamicCalendar(l);
+
+        dtIslamic.setCivil(true);
+
+
+
+
         DateTimeFormatter fmt = DateTimeFormat.forPattern("MM, dd, yyyy");
-        //DateTime
-        //DateTime y = dateTime.withYear(nyear);
-        //DateTime m =  y.withMonthOfYear(10);
-        //DateTime d = m.withDayOfMonth(1);
-        DateTime is = dateTime.withChronology(IslamicChronology.getInstance());
-        //Calendar calendar = is.toCalendar(Locale.getDefault());
         DateFormat usDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        //String h = usDateFormat.format(is);
-        String str = fmt.print(is);
-        return str;
+       //System.out.println(dtIslamic);
+        //String str = fmt.print(dtIslamic.toString());
+        return usDateFormat.format(dtIslamic.getTime());
     }
 
     public static void main(String [] args){
