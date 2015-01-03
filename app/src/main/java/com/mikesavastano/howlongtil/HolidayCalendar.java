@@ -1,7 +1,5 @@
 package com.mikesavastano.howlongtil;
 
-import android.content.Intent;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -9,11 +7,12 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+//import  org.joda.time.DateTime;
 
 
 public class HolidayCalendar {
 
-    public List<List<String>> holidays = new ArrayList<List<String>>();
+    public List<List<String>> holidays = new ArrayList<>();
 
     public HolidayCalendar() {
         holidays.add(Arrays.asList("99", "99", "1", "0", "New Years Day"));
@@ -27,7 +26,7 @@ public class HolidayCalendar {
         holidays.add(Arrays.asList("99", "99", "3", "15", "Tax Day (US)"));
         holidays.add(Arrays.asList("99", "99", "4", "5", "Cinco de Mayo"));
         holidays.add(Arrays.asList("2", "1", "4", "99", "Mother's Day (US)"));
-        holidays.add(Arrays.asList("99", "99", "99", "99", "Memorial Day (US)"));
+        holidays.add(Arrays.asList("-1", "2", "4", "99", "Memorial Day (US)"));
         holidays.add(Arrays.asList("99", "99", "6", "4", "Independence Day (US)"));
         //Ramadan
         holidays.add(Arrays.asList("1", "2", "8", "99", "Labor Day (US)"));
@@ -35,8 +34,8 @@ public class HolidayCalendar {
         holidays.add(Arrays.asList("99", "99", "10", "11", "Veterans Day (US)"));
         holidays.add(Arrays.asList("4", "5", "10", "99", "Thanksgiving Day (US)"));
         //Hanaka
-        //Quanza
         holidays.add(Arrays.asList("99", "99", "11", "25", "Christmas (US)"));
+        holidays.add(Arrays.asList("99", "99", "11", "26", "Kwanzaa"));
     }
 
     public Map mapMaker(final List<String> hol){
@@ -56,8 +55,6 @@ public class HolidayCalendar {
             return EasterSunday(nyear);
         }else if(date.get("name")=="Good Friday (US)"){
             return GoodFriday(EasterSunday(nyear));
-        }else if(date.get("name")=="Memorial Day (US)"){
-            return MemorialDay(nyear);
         }else if(Integer.valueOf(date.get("dayOfMonth")) == 99){
             Integer week = Integer.valueOf(date.get("weekOfMonth")); //week of month
             Integer day = Integer.valueOf(date.get("dayOfWeek"));  //day of week
@@ -97,9 +94,7 @@ public class HolidayCalendar {
 
         int nEasterMonth;
         int nEasterDay;
-
         // Calculate Easter
-
 
         int nA = nYear % 19;
         int nB = nYear / 100;
@@ -131,25 +126,7 @@ public class HolidayCalendar {
     public Calendar GoodFriday(Calendar easter){
         Calendar gf = easter;
         gf.add(Calendar.DAY_OF_YEAR, -2);
-        /*int day = easter.get(Calendar.DAY_OF_MONTH);
-        int dayminustwo = day - 2;
-        switch(dayminustwo){
-            case 0:
-                gf.set(easter.get(Calendar.YEAR), 2, 31);
-            case -1:
-                gf.set(easter.get(Calendar.YEAR), 2, 30);
-            default:
-                gf.set(easter.get(Calendar.YEAR), easter.get(Calendar.MONTH), dayminustwo);
-        }*/
-        return gf;
-    }
 
-    public Calendar MemorialDay(int nyear){
-        Calendar pCal = Calendar.getInstance();
-        pCal.set(Calendar.YEAR, nyear);
-        pCal.set(Calendar.MONTH, 4);
-        pCal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        pCal.set(Calendar.DAY_OF_WEEK_IN_MONTH, -1);
-        return pCal;
+        return gf;
     }
 }

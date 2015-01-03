@@ -1,11 +1,14 @@
 package com.mikesavastano.howlongtil;
 
 
+import android.content.Intent;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -253,5 +256,31 @@ public class HowLongDetail extends ActionBarActivity {
 
     public static int remainderSeconds(Calendar today , Calendar event){
         return (int) (secondsBetween(today, event) - minutesBetween(today, event)*60);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_how_long_til_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
+        int id = item.getItemId();
+        switch (id) {
+            // Starts a saved list activity
+            case R.id.saved_list:
+                i = new Intent(this, SavedEvents.class);
+                startActivity(i);
+                return true;
+            case R.id.holiday_list:
+                i = new Intent(this, HolidayList.class);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

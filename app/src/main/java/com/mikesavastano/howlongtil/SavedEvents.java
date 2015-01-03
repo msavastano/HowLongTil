@@ -7,6 +7,8 @@ import android.os.Bundle;
 import java.util.Calendar;
 import android.database.Cursor;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -111,4 +113,26 @@ public class SavedEvents extends Activity {
         ListView savedList = (ListView) findViewById(R.id.listViewSavedEvents);
         savedList.setAdapter(savedListAdapter);
     }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_saved_events, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
+        int id = item.getItemId();
+        switch (id) {
+
+            case R.id.holiday_list:
+                i = new Intent(this, HolidayList.class);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }*/
 }
