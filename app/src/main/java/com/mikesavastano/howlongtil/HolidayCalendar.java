@@ -1,13 +1,19 @@
 package com.mikesavastano.howlongtil;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-//import  org.joda.time.DateTime;
+import  org.joda.time.DateTime;
+import org.joda.time.chrono.IslamicChronology;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 
 public class HolidayCalendar {
@@ -77,16 +83,7 @@ public class HolidayCalendar {
         return d.get(Calendar.DAY_OF_MONTH);
     }
 
-    public static void main(String [] args){
-        HolidayCalendar h = new HolidayCalendar();
-        System.out.println( h.holidays.get(0).get(4) );
 
-        for(List<String> holiday : h.holidays){
-            System.out.println(holiday.get(4));
-            System.out.println(h.mapMaker(holiday));
-            //System.out.println(xx.get(Calendar.DAY_OF_MONTH));
-        }
-    }
 
     public static Calendar EasterSunday(int nYear)
     {
@@ -128,5 +125,25 @@ public class HolidayCalendar {
         gf.add(Calendar.DAY_OF_YEAR, -2);
 
         return gf;
+    }
+
+    public String EidAlFitr(int nyear){
+        DateTime dateTime = new DateTime(nyear, 10, 1, 0, 0);
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("MM, dd, yyyy");
+        //DateTime
+        //DateTime y = dateTime.withYear(nyear);
+        //DateTime m =  y.withMonthOfYear(10);
+        //DateTime d = m.withDayOfMonth(1);
+        DateTime is = dateTime.withChronology(IslamicChronology.getInstance());
+        //Calendar calendar = is.toCalendar(Locale.getDefault());
+        DateFormat usDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        //String h = usDateFormat.format(is);
+        String str = fmt.print(is);
+        return str;
+    }
+
+    public static void main(String [] args){
+        HolidayCalendar h = new HolidayCalendar();
+        System.out.println(h.EidAlFitr(2016));
     }
 }
