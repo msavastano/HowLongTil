@@ -5,6 +5,7 @@ import android.content.Intent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,41 +21,52 @@ public class HolidayCalendar {
         holidays.add(Arrays.asList("99", "99", "1", "14", "Valentine's Day"));
         holidays.add(Arrays.asList("3", "2", "1", "99", "President's Day (US)"));
         holidays.add(Arrays.asList("99", "99", "2", "17", "St. Patrick's Day (US)"));
-        //Good Friday
-        //Easter
+        //Passover
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Good Friday (US)"));
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Easter (US)"));
         holidays.add(Arrays.asList("99", "99", "3", "15", "Tax Day (US)"));
         holidays.add(Arrays.asList("99", "99", "4", "5", "Cinco de Mayo"));
         holidays.add(Arrays.asList("2", "1", "4", "99", "Mother's Day (US)"));
-        //last monday holidays.add(Arrays.asList("2", "1", "4", "99", "Memorial Day (US)"));
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Memorial Day (US)"));
         holidays.add(Arrays.asList("99", "99", "6", "4", "Independence Day (US)"));
+        //Ramadan
         holidays.add(Arrays.asList("1", "2", "8", "99", "Labor Day (US)"));
         holidays.add(Arrays.asList("99", "99", "9", "31", "Halloween (US)"));
         holidays.add(Arrays.asList("99", "99", "10", "11", "Veterans Day (US)"));
         holidays.add(Arrays.asList("4", "5", "10", "99", "Thanksgiving Day (US)"));
+        //Hanaka
+        //Quanza
         holidays.add(Arrays.asList("99", "99", "11", "25", "Christmas (US)"));
     }
 
     public Map mapMaker(final List<String> hol){
-        Map<String, Integer> w = new HashMap<String, Integer>(){{
-            put("weekOfMonth", Integer.valueOf(hol.get(0)));
-            put("dayOfWeek", Integer.valueOf(hol.get(1)));
-            put("month", Integer.valueOf(hol.get(2)));
-            put("dayOfMonth", Integer.valueOf(hol.get(3)));
+        Map<String, String> w = new HashMap<String, String>(){{
+            put("weekOfMonth", hol.get(0));
+            put("dayOfWeek", hol.get(1));
+            put("month", hol.get(2));
+            put("dayOfMonth", hol.get(3));
+            put("name", hol.get(4));
         }};
         return w;
     }
 
-    public Calendar calcHoliday (Map<String, Integer> date, int nyear) {
+    public Calendar calcHoliday (Map<String, String> date, int nyear) {
         Calendar hol = Calendar.getInstance();
-        if(date.get("dayOfMonth") == 99){
-            Integer week = date.get("weekOfMonth"); //week of month
-            Integer day = date.get("dayOfWeek");  //day of week
-            Integer month = date.get("month"); //month
+        if(date.get("name")=="Easter (US)"){
+            return EasterSunday(nyear);
+        }else if(date.get("name")=="Good Friday (US)"){
+            return GoodFriday(EasterSunday(nyear));
+        }else if(date.get("name")=="Memorial Day (US)"){
+            return MemorialDay(nyear);
+        }else if(Integer.valueOf(date.get("dayOfMonth")) == 99){
+            Integer week = Integer.valueOf(date.get("weekOfMonth")); //week of month
+            Integer day = Integer.valueOf(date.get("dayOfWeek"));  //day of week
+            Integer month = Integer.valueOf(date.get("month")); //month
             int dte = getHolDay(week, day, month, nyear);
             hol.set(nyear, month, dte);
         }else{
-            Integer dayofmonth = date.get("dayOfMonth");
-            hol.set(nyear, date.get("month"), dayofmonth);
+            Integer dayofmonth = Integer.valueOf(date.get("dayOfMonth"));
+            hol.set(nyear, Integer.valueOf(date.get("month")), dayofmonth);
         }
         return hol;
     }
@@ -88,12 +100,7 @@ public class HolidayCalendar {
 
         // Calculate Easter
 
-        if (nYear < 1900)
-        {
-            // if year is in java format put it into standard
-            // format for the calculation
-            nYear += 1900;
-        }
+
         int nA = nYear % 19;
         int nB = nYear / 100;
         int nC = nYear % 100;
@@ -116,11 +123,33 @@ public class HolidayCalendar {
         // Date in Easter Month.
         nEasterDay = nP + 1;
 
-        // Uncorrect for our earlier correction.
-        nYear -= 1900;
-
         easter.set(nYear, nEasterMonth, nEasterDay);
         // Populate the date object...
         return easter;
+    }
+
+    public Calendar GoodFriday(Calendar easter){
+        Calendar gf = easter;
+        gf.add(Calendar.DAY_OF_YEAR, -2);
+        /*int day = easter.get(Calendar.DAY_OF_MONTH);
+        int dayminustwo = day - 2;
+        switch(dayminustwo){
+            case 0:
+                gf.set(easter.get(Calendar.YEAR), 2, 31);
+            case -1:
+                gf.set(easter.get(Calendar.YEAR), 2, 30);
+            default:
+                gf.set(easter.get(Calendar.YEAR), easter.get(Calendar.MONTH), dayminustwo);
+        }*/
+        return gf;
+    }
+
+    public Calendar MemorialDay(int nyear){
+        Calendar pCal = Calendar.getInstance();
+        pCal.set(Calendar.YEAR, nyear);
+        pCal.set(Calendar.MONTH, 4);
+        pCal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        pCal.set(Calendar.DAY_OF_WEEK_IN_MONTH, -1);
+        return pCal;
     }
 }
