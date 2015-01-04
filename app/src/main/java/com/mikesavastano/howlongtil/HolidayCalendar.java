@@ -40,13 +40,15 @@ public class HolidayCalendar {
         holidays.add(Arrays.asList("-1", "2", "4", "99", "Memorial Day (US)"));
         holidays.add(Arrays.asList("99", "99", "6", "4", "Independence Day (US)"));
         holidays.add(Arrays.asList("99", "99", "99", "99", "Eid al-Fitr"));
-        //Ramadan
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Rosh Hashanah"));
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Yom Kippur (last day)"));
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Chanukah"));
         holidays.add(Arrays.asList("1", "2", "8", "99", "Labor Day (US)"));
         holidays.add(Arrays.asList("99", "99", "9", "31", "Halloween (US)"));
         holidays.add(Arrays.asList("99", "99", "10", "11", "Veterans Day (US)"));
         holidays.add(Arrays.asList("4", "5", "10", "99", "Thanksgiving Day (US)"));
         holidays.add(Arrays.asList("99", "99", "99", "99", "Eid al-Adha"));
-        //Hanaka
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Chanukah"));
         holidays.add(Arrays.asList("99", "99", "11", "25", "Christmas (US)"));
         holidays.add(Arrays.asList("99", "99", "11", "26", "Kwanzaa"));
     }
@@ -64,7 +66,13 @@ public class HolidayCalendar {
 
     public Calendar calcHoliday (Map<String, String> date, int nyear) {
         Calendar hol = Calendar.getInstance();
-        if(date.get("name")=="Eid al-Adha"){
+        if(date.get("name")=="Rosh Hashanah"){
+            return RoshHashanah(nyear);
+        }else if(date.get("name")=="Yom Kippur (last day)"){
+            return YomKippur(nyear);
+        }else if(date.get("name")=="Chanukah"){
+            return Chanukah(nyear);
+        }else if(date.get("name")=="Eid al-Adha"){
             return EidAlAdha(nyear);
         }else if(date.get("name")=="Eid al-Fitr"){
             return EidAlFitr(nyear);
@@ -263,28 +271,70 @@ public class HolidayCalendar {
         return tempc;
     }
 
-    static String Chanukah(int nyear) {
+    static Calendar Chanukah(int nyear) {
 
         //JewishDate jewdate = new JewishDate();
         Calendar tempc = Calendar.getInstance();
-        tempc.set(Calendar.YEAR, 2017);
-        JewishCalendar jd = new JewishCalendar(); // current date 23 Nissan, 5773
+        tempc.set(Calendar.YEAR, nyear+1);
+        //JewishDate jd = new JewishDate(tempc);
         //jd.setGregorianDate(nyear, 9, 25);
-        int d = 25;
-        int m = 9;
-        int y = nyear;
 
         JewishCalendar chan = new JewishCalendar(tempc);
-        chan.setJewishDate(chan.getJewishYear(), 9, 25);
-        chan.getGregorianDayOfMonth();
+        chan.setJewishMonth(9);
+        chan.setJewishDayOfMonth(25);
+        tempc.setTime(chan.getTime());
+        tempc.set(Calendar.HOUR_OF_DAY, 0);
+        tempc.set(Calendar.MINUTE, 0);
+        tempc.set(Calendar.SECOND, 0);
+        tempc.set(Calendar.MILLISECOND, 0);
 
-        return Integer.toString(chan.getGregorianYear());
+        return tempc; //Integer.toString(chan.getGregorianDayOfMonth()); //; //Integer.toString(chan.getGregorianYear()) +" "+ Integer.toString(chan.getGregorianMonth()) +" "+ Integer.toString(chan.getGregorianDayOfMonth());
     }
 
     public static void main(String [] args){
         HolidayCalendar h = new HolidayCalendar();
         //System.out.println(h.EidAlFitr(2016));
-        System.out.println(Chanukah(2017));
+        System.out.println(Chanukah(2020));
+    }
+
+    static Calendar RoshHashanah(int nyear) {
+
+        //JewishDate jewdate = new JewishDate();
+        Calendar tempc = Calendar.getInstance();
+        tempc.set(Calendar.YEAR, nyear+1);
+        //JewishDate jd = new JewishDate(tempc);
+        //jd.setGregorianDate(nyear, 9, 25);
+
+        JewishCalendar chan = new JewishCalendar(tempc);
+        chan.setJewishMonth(7);
+        chan.setJewishDayOfMonth(1);
+        tempc.setTime(chan.getTime());
+        tempc.set(Calendar.HOUR_OF_DAY, 0);
+        tempc.set(Calendar.MINUTE, 0);
+        tempc.set(Calendar.SECOND, 0);
+        tempc.set(Calendar.MILLISECOND, 0);
+
+        return tempc; //Integer.toString(chan.getGregorianDayOfMonth()); //; //Integer.toString(chan.getGregorianYear()) +" "+ Integer.toString(chan.getGregorianMonth()) +" "+ Integer.toString(chan.getGregorianDayOfMonth());
+    }
+
+    static Calendar YomKippur(int nyear) {
+
+        //JewishDate jewdate = new JewishDate();
+        Calendar tempc = Calendar.getInstance();
+        tempc.set(Calendar.YEAR, nyear+1);
+        //JewishDate jd = new JewishDate(tempc);
+        //jd.setGregorianDate(nyear, 9, 25);
+
+        JewishCalendar chan = new JewishCalendar(tempc);
+        chan.setJewishMonth(7);
+        chan.setJewishDayOfMonth(10);
+        tempc.setTime(chan.getTime());
+        tempc.set(Calendar.HOUR_OF_DAY, 0);
+        tempc.set(Calendar.MINUTE, 0);
+        tempc.set(Calendar.SECOND, 0);
+        tempc.set(Calendar.MILLISECOND, 0);
+
+        return tempc; //Integer.toString(chan.getGregorianDayOfMonth()); //; //Integer.toString(chan.getGregorianYear()) +" "+ Integer.toString(chan.getGregorianMonth()) +" "+ Integer.toString(chan.getGregorianDayOfMonth());
     }
 
 
