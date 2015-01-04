@@ -43,6 +43,7 @@ public class HolidayCalendar {
         holidays.add(Arrays.asList("99", "99", "9", "31", "Halloween (US)"));
         holidays.add(Arrays.asList("99", "99", "10", "11", "Veterans Day (US)"));
         holidays.add(Arrays.asList("4", "5", "10", "99", "Thanksgiving Day (US)"));
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Eid al-Adha"));
         //Hanaka
         holidays.add(Arrays.asList("99", "99", "11", "25", "Christmas (US)"));
         holidays.add(Arrays.asList("99", "99", "11", "26", "Kwanzaa"));
@@ -61,8 +62,10 @@ public class HolidayCalendar {
 
     public Calendar calcHoliday (Map<String, String> date, int nyear) {
         Calendar hol = Calendar.getInstance();
-        if(date.get("name")=="Eid al-Fitr"){
-            return writeIslamicDate(nyear);
+        if(date.get("name")=="Eid al-Adha"){
+            return EidAlAdha(nyear);
+        }else if(date.get("name")=="Eid al-Fitr"){
+            return EidAlFitr(nyear);
         }else if(date.get("name")=="Easter (US)"){
             return EasterSunday(nyear);
         }else if(date.get("name")=="Good Friday (US)"){
@@ -136,7 +139,7 @@ public class HolidayCalendar {
     public static void main(String [] args){
         HolidayCalendar h = new HolidayCalendar();
         //System.out.println(h.EidAlFitr(2016));
-        System.out.println(writeIslamicDate(2018).getTime());
+        System.out.println(EidAlFitr(2018).getTime());
     }
 
     //http://www.coderanch.com/t/534271/java/java/Gregorian-Hijri-Dates-Converter-JAVA
@@ -236,12 +239,25 @@ public class HolidayCalendar {
 
         return myRes;
     }
-    static Calendar writeIslamicDate(int nyear) {
+    static Calendar EidAlFitr(int nyear) {
 
         boolean dayTest = false;
         double[] iDate = kuwaiticalendar(dayTest, nyear);
 
         IslamicCalendar dtIslamic = new com.ibm.icu.util.IslamicCalendar((int)iDate[7],  9,  1);
+
+        Long milliTime = dtIslamic.getTimeInMillis(); //.getTime()+"  "+Double.toString(iDate[6])+ " "+Double.toString(iDate[5])+" " +Double.toString(iDate[7]);
+        Calendar tempc = Calendar.getInstance();
+        tempc.setTimeInMillis(milliTime);
+        return tempc;
+    }
+
+    static Calendar EidAlAdha(int nyear) {
+
+        boolean dayTest = false;
+        double[] iDate = kuwaiticalendar(dayTest, nyear);
+
+        IslamicCalendar dtIslamic = new com.ibm.icu.util.IslamicCalendar((int)iDate[7],  11,  10);
 
         Long milliTime = dtIslamic.getTimeInMillis(); //.getTime()+"  "+Double.toString(iDate[6])+ " "+Double.toString(iDate[5])+" " +Double.toString(iDate[7]);
         Calendar tempc = Calendar.getInstance();
