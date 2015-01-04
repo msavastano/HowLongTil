@@ -17,6 +17,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import com.ibm.icu.util.*;
 
+import net.sourceforge.zmanim.hebrewcalendar.JewishCalendar;
+import net.sourceforge.zmanim.hebrewcalendar.JewishDate;
 
 
 public class HolidayCalendar {
@@ -136,11 +138,7 @@ public class HolidayCalendar {
         return gf;
     }
 
-    public static void main(String [] args){
-        HolidayCalendar h = new HolidayCalendar();
-        //System.out.println(h.EidAlFitr(2016));
-        System.out.println(EidAlFitr(2018).getTime());
-    }
+
 
     //http://www.coderanch.com/t/534271/java/java/Gregorian-Hijri-Dates-Converter-JAVA
     static double gmod(double n,double  m) {
@@ -264,4 +262,30 @@ public class HolidayCalendar {
         tempc.setTimeInMillis(milliTime);
         return tempc;
     }
+
+    static String Chanukah(int nyear) {
+
+        //JewishDate jewdate = new JewishDate();
+        Calendar tempc = Calendar.getInstance();
+        tempc.set(Calendar.YEAR, 2017);
+        JewishCalendar jd = new JewishCalendar(); // current date 23 Nissan, 5773
+        //jd.setGregorianDate(nyear, 9, 25);
+        int d = 25;
+        int m = 9;
+        int y = nyear;
+
+        JewishCalendar chan = new JewishCalendar(tempc);
+        chan.setJewishDate(chan.getJewishYear(), 9, 25);
+        chan.getGregorianDayOfMonth();
+
+        return Integer.toString(chan.getGregorianYear());
+    }
+
+    public static void main(String [] args){
+        HolidayCalendar h = new HolidayCalendar();
+        //System.out.println(h.EidAlFitr(2016));
+        System.out.println(Chanukah(2017));
+    }
+
+
 }
