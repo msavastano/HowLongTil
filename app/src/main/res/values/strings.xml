@@ -11,7 +11,7 @@
     <string name="save_text">Save</string>
     <string name="share_text">Share</string>
     <string name="saved_events_text">Saved Events</string>
-    <string name="title_activity_saved_events">SavedEvents</string>
+    <string name="title_activity_saved_events">Saved Events</string>
     <string name="name_text">Name:</string>
     <string name="thats_today_text">That is Today!</string>
     <string name="thats_before_today_text">That\'s already happened!</string>

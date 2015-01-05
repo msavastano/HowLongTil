@@ -36,9 +36,6 @@
             android:digits="0123456789"
             android:gravity="center" />
 
-        <!--android:onClick="saveEvent" -->
-
-
     </LinearLayout>
 
 
@@ -49,5 +46,10 @@
         android:id="@+id/listHolidayEvents"
         android:padding="4dp"
         android:background="@drawable/textlines"
-        android:layout_below="@+id/year_lin_layout" />
+        android:layout_below="@+id/year_lin_layout"
+        android:elevation="2dp"
+        android:dividerHeight="2dp"
+        android:divider="@drawable/list_divider"
+        android:duplicateParentState="true"
+        android:fadeScrollbars="false" />
 </RelativeLayout>

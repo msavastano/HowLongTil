@@ -31,7 +31,7 @@ public class HolidayCalendar {
         holidays.add(Arrays.asList("99", "99", "6", "4", "Independence Day (US)"));
         holidays.add(Arrays.asList("99", "99", "99", "99", "Eid al-Fitr"));
         holidays.add(Arrays.asList("99", "99", "99", "99", "Rosh Hashanah"));
-        holidays.add(Arrays.asList("99", "99", "99", "99", "Yom Kippur (last day)"));
+        holidays.add(Arrays.asList("99", "99", "99", "99", "Yom Kippur"));
         holidays.add(Arrays.asList("99", "99", "99", "99", "Chanukah"));
         holidays.add(Arrays.asList("1", "2", "8", "99", "Labor Day (US)"));
         holidays.add(Arrays.asList("99", "99", "9", "31", "Halloween (US)"));
@@ -58,7 +58,7 @@ public class HolidayCalendar {
         Calendar hol = Calendar.getInstance();
         if(date.get("name")=="Rosh Hashanah"){
             return RoshHashanah(nyear);
-        }else if(date.get("name")=="Yom Kippur (last day)"){
+        }else if(date.get("name")=="Yom Kippur"){
             return YomKippur(nyear);
         }else if(date.get("name")=="Chanukah"){
             return Chanukah(nyear);
@@ -130,14 +130,14 @@ public class HolidayCalendar {
 
         easter.set(nYear, nEasterMonth, nEasterDay);
         // Populate the date object...
-        return easter;
+        return zeroOutTime(easter);
     }
 
     public Calendar GoodFriday(Calendar easter){
         Calendar gf = easter;
         gf.add(Calendar.DAY_OF_YEAR, -2);
 
-        return gf;
+        return zeroOutTime(gf);
     }
 
 
@@ -249,7 +249,7 @@ public class HolidayCalendar {
         Long milliTime = dtIslamic.getTimeInMillis();
         Calendar tempc = Calendar.getInstance();
         tempc.setTimeInMillis(milliTime);
-        return tempc;
+        return zeroOutTime(tempc);
     }
 
     static Calendar EidAlAdha(int nyear) {
@@ -262,7 +262,7 @@ public class HolidayCalendar {
         Long milliTime = dtIslamic.getTimeInMillis();
         Calendar tempc = Calendar.getInstance();
         tempc.setTimeInMillis(milliTime);
-        return tempc;
+        return zeroOutTime(tempc);
     }
 
     static Calendar Chanukah(int nyear) {
@@ -274,12 +274,8 @@ public class HolidayCalendar {
         chan.setJewishMonth(9);
         chan.setJewishDayOfMonth(25);
         tempc.setTime(chan.getTime());
-        tempc.set(Calendar.HOUR_OF_DAY, 0);
-        tempc.set(Calendar.MINUTE, 0);
-        tempc.set(Calendar.SECOND, 0);
-        tempc.set(Calendar.MILLISECOND, 0);
 
-        return tempc;
+        return zeroOutTime(tempc);
     }
 
     public static void main(String [] args){
@@ -296,12 +292,8 @@ public class HolidayCalendar {
         chan.setJewishMonth(7);
         chan.setJewishDayOfMonth(1);
         tempc.setTime(chan.getTime());
-        tempc.set(Calendar.HOUR_OF_DAY, 0);
-        tempc.set(Calendar.MINUTE, 0);
-        tempc.set(Calendar.SECOND, 0);
-        tempc.set(Calendar.MILLISECOND, 0);
 
-        return tempc;
+        return zeroOutTime(tempc);
     }
 
     static Calendar YomKippur(int nyear) {
@@ -313,12 +305,16 @@ public class HolidayCalendar {
         chan.setJewishMonth(7);
         chan.setJewishDayOfMonth(10);
         tempc.setTime(chan.getTime());
-        tempc.set(Calendar.HOUR_OF_DAY, 0);
-        tempc.set(Calendar.MINUTE, 0);
-        tempc.set(Calendar.SECOND, 0);
-        tempc.set(Calendar.MILLISECOND, 0);
 
-        return tempc;
+        return zeroOutTime(tempc);
+    }
+
+    private static Calendar zeroOutTime(Calendar cal){
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
     }
 
 

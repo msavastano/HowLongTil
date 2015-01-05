@@ -102,7 +102,6 @@ public class HolidayList extends ActionBarActivity {
                 i = new Intent(this, SavedEvents.class);
                 startActivity(i);
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }

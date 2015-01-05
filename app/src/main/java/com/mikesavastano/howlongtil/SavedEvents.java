@@ -6,6 +6,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.os.Bundle;
 import java.util.Calendar;
 import android.database.Cursor;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SavedEvents extends Activity {
+public class SavedEvents extends ActionBarActivity {
 
     final String TAG = "com.mikesavastano.howlongtil.SavedEvents";
 
@@ -114,7 +115,7 @@ public class SavedEvents extends Activity {
         savedList.setAdapter(savedListAdapter);
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_saved_events, menu);
@@ -126,7 +127,7 @@ public class SavedEvents extends Activity {
         Intent i;
         int id = item.getItemId();
         switch (id) {
-
+            // Starts a saved list activity
             case R.id.holiday_list:
                 i = new Intent(this, HolidayList.class);
                 startActivity(i);
@@ -134,5 +135,5 @@ public class SavedEvents extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }*/
+    }
 }
