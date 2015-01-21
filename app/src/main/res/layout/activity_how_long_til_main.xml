@@ -25,13 +25,13 @@
             android:gravity="center_vertical|center_horizontal"
             android:text="@string/pick_date_text"
             android:textColor="#fff7fbf9"
-            android:layout_weight="1"
+            android:layout_weight="2"
             />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             >
             <DatePicker
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             >
             <Button
                 android:text="@string/how_long_button_text"
@@ -61,5 +61,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"/>
         </RelativeLayout>
+
+
+        <fragment
+            android:id="@+id/adFragment"
+            android:name="com.mikesavastano.howlongtil.HowLongTIlMainActivity$AdFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+        />
+
     </LinearLayout>
+
 </RelativeLayout>

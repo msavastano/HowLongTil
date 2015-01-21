@@ -22,5 +22,7 @@
     <string name="title_activity_holiday_list">Holiday List</string>
     <string name="year_text">Year:</string>
     <string name="empty_string">Please enter a year</string>
+    <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6874192451483927/2919691290</string>
 
 </resources>
