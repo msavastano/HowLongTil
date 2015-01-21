@@ -2,9 +2,6 @@ package com.mikesavastano.howlongtil;
 
 import java.util.Date;
 
-/**
- * Created by michael on 12/18/14.
- */
 public class EventDate {
 
     private int event_id;
